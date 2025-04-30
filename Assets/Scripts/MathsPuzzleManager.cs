@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.PackageManager.UI;
 public enum Difficulty
 {
     Easy,
@@ -26,6 +27,9 @@ public class MathsPuzzleManager : MonoBehaviour
     public float spacing = 2f;    // Space between each rock
     public Transform spawnPoint;
 
+    public TextMeshProUGUI healthBarTxt;
+    public GameObject healthBarObject;
+
     private int correctAnswer;
     private string correctWordAnswer;
  
@@ -39,6 +43,9 @@ public class MathsPuzzleManager : MonoBehaviour
 
     private int frameCounter = 0;
     public int framesPerSpawn = 600; // The number of frames between each spawn cycle
+
+
+    public ScoreCounter currentScore; //Gets the current score
     /*
         void Start()
         {
@@ -64,6 +71,10 @@ public class MathsPuzzleManager : MonoBehaviour
 
     public void beginPuzzle()
     {
+        healthBarObject.SetActive(false);
+        currentScore.GetComponent<ScoreCounter>().scoreText.SetText("");
+
+        healthBarTxt.text = "";
         currentDifficulty = GameSettings.SelectedDifficulty;
         Debug.Log($"Starting puzzle with difficulty: {currentDifficulty}");
         mat = GetComponent<Renderer>().material;
@@ -103,6 +114,15 @@ public class MathsPuzzleManager : MonoBehaviour
             SpawnRocks();
             frameCounter = 0; // Reset the frame counter
         }*/
+
+
+        int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
+
+        if(thisScore % 20 == 0)
+        {
+           
+            rockSpeed += 0.05f;
+        }
 
         // Move the spawned rocks from right to left
         foreach (GameObject rock in spawnedRocks)
@@ -152,7 +172,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
                     case 1: 
                         correctAnswer = num1 * num2;
-                        puzzleText.text = $"{num1} × {num2} = ?";
+                        puzzleText.text = $"{num1} ï¿½ {num2} = ?";
                         break;
 
                     case 2:
@@ -215,6 +235,9 @@ public class MathsPuzzleManager : MonoBehaviour
         {
             puzzleText.gameObject.SetActive(false);
         }
+
+        healthBarObject.SetActive(true);
+        healthBarTxt.text = "Health: ";
     }
 
     void SpawnRocks()

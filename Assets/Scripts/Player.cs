@@ -50,11 +50,23 @@ public class Player : MonoBehaviour
         // Determine the screen boundaries in world space
         Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
-
+    
         minX = bottomLeft.x;
         maxX = topRight.x;
-        minY = bottomLeft.y;
-        maxY = topRight.y;
+        minY = bottomLeft.y + 45 ;
+        maxY = topRight.y - 55;
+    /*
+        Debug.Log("minX " + minX);
+        Debug.Log("maxX " + maxX);
+        Debug.Log("minY " + minY);
+        Debug.Log("maxY " + maxY);
+*/
+/*
+        minX = 14.3488f;
+        maxX = 9.8989f;
+        minY = -239.34f;
+        maxY = 225.8962f;
+*/
 
         // Freeze the Z rotation
         rb.freezeRotation = true;

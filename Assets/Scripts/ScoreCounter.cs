@@ -78,3 +78,5 @@ public class ScoreCounter : MonoBehaviour
         PlayerPrefs.Save();
     }
 }
+
+//THIS IS A NEW COMMENT
