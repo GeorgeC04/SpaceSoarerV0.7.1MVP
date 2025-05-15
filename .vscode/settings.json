@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "SpaceSoarerV0.6MVP-main.sln"
+    "dotnet.defaultSolution": "SpaceSoarerV0.7.1MVP.sln"
 }
