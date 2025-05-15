@@ -6,3 +6,6 @@ public static class GameSettings
 {
     public static Difficulty SelectedDifficulty = Difficulty.Easy; // Default difficulty
 }
+
+
+//please work
