@@ -2247,7 +2247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 291, y: 219.7}
+  m_AnchoredPosition: {x: 291, y: 213.99997}
   m_SizeDelta: {x: 65.9462, y: 28.885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1420864250
@@ -2306,8 +2306,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2816,8 +2816,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -296, y: 214}
-  m_SizeDelta: {x: -796.4543, y: -584.3348}
+  m_AnchoredPosition: {x: -298.5942, y: 214}
+  m_SizeDelta: {x: -805.7936, y: -602.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1632061792
 MonoBehaviour:
@@ -3419,7 +3419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.5, y: 208.3}
+  m_AnchoredPosition: {x: 15.5, y: 213.99997}
   m_SizeDelta: {x: 65.9462, y: 28.885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1793413234
@@ -3476,8 +3476,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3605,8 +3605,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.9509, y: 214}
-  m_SizeDelta: {x: 859.9728, y: 44.191}
+  m_AnchoredPosition: {x: 9.7336, y: 214}
+  m_SizeDelta: {x: 524.1705, y: 44.191}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1941266808
 MonoBehaviour:
@@ -3691,7 +3691,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1.8117063, y: 41.223423, z: 0, w: 50.726643}
+  m_margin: {x: -1.8117063, y: 41.223423, z: 0, w: 43.896774}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
