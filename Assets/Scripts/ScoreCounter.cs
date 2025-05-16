@@ -47,7 +47,7 @@ public class ScoreCounter : MonoBehaviour
     }
 
     // Function to save a new high score if it qualifies for the top 5
-    void SaveHighScore(float newScore, string newPlayerName)
+    public void SaveHighScore(float newScore, string newPlayerName)
     {
         // Retrieve the existing top 5 scores
         List<(float score, string player)> highScores = new List<(float, string)>();
