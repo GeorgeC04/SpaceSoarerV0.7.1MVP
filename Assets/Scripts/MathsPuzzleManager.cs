@@ -105,7 +105,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
     void Update()
     {
-     // Reset the frame counter
+        // Reset the frame counter
 
         // Check if it's time to spawn the question and rocks
         /*if (frameCounter >= framesPerSpawn)
@@ -114,6 +114,12 @@ public class MathsPuzzleManager : MonoBehaviour
             SpawnRocks();
             frameCounter = 0; // Reset the frame counter
         }*/
+        
+        if (currentScore == null || random == null)
+        {
+            return;
+        }
+        
 
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
