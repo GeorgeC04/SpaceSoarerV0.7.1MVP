@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class RandomRockSpawner : MonoBehaviour
 {
     public GameObject rockPrefab;
@@ -52,6 +53,7 @@ public class RandomRockSpawner : MonoBehaviour
     public void begin()
     {
         plane.GetComponent<MathsPuzzleManager>().enabled = false;
+        plane.GetComponent<ColourPattern>().enabled = false;
         rockSpawnAllow = true;
         //previousRockPosition = (Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.transform.position.z)).y - Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z)).y) / 2;
         topViewPort = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.transform.position.z)).y;
@@ -87,8 +89,18 @@ public class RandomRockSpawner : MonoBehaviour
             if (questionSpawn >= questionSpawnInterval)
             {
                 rockSpawnAllow = false;
-                plane.GetComponent<MathsPuzzleManager>().enabled = true;
-                plane.GetComponent<MathsPuzzleManager>().beginPuzzle();
+                int whichOne = Random.Range(0, 1);
+                //int whichOne = 1;
+                if (whichOne == 0)
+                {
+                    plane.GetComponent<MathsPuzzleManager>().enabled = true;
+                    plane.GetComponent<MathsPuzzleManager>().beginPuzzle();
+                }
+                else
+                {
+                    plane.GetComponent<ColourPattern>().enabled = true;
+                    plane.GetComponent<ColourPattern>().beginPuzzle();
+                }
                 questionSpawn = 0f;
                 //this.enabled = false;
                 //thisPlane.MathsPuzzleManager.start();
