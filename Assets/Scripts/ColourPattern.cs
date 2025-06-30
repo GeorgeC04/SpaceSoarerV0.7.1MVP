@@ -241,8 +241,8 @@ public class ColourPattern : MonoBehaviour
             // Easy math puzzle: only addition
             if (puzzleText != null)
             {
-                int num1 = Random.Range(1, 10);
-                int num2 = Random.Range(1, 10);
+                int num1 = Random.Range(1, 20);
+                int num2 = Random.Range(1, 20);
                 correctAnswer = num1 + num2;
                 puzzleText.text = $"{num1} + {num2} = ?";
                 puzzleText.gameObject.SetActive(true);
@@ -257,8 +257,8 @@ public class ColourPattern : MonoBehaviour
             // Call hard math puzzle method
             if (puzzleText != null)
             {
-                int num1 = Random.Range(1, 20);
-                int num2 = Random.Range(1, 20);
+                int num1 = Random.Range(20, 50);
+                int num2 = Random.Range(20, 50);
 
                 // Randomly choose an operation: 0 = addition, 1 = subtraction, 2 = multiplication
                 int operation = Random.Range(0, 2);
@@ -300,8 +300,19 @@ public class ColourPattern : MonoBehaviour
             if (currentDifficulty == Difficulty.Easy)
             {
                 // Easy difficulty: Words with one blank
-                string[] words = { "SMAL_", "DO_", "B_OK" }; // Words with one blank
-                string[] correctLetters = { "L", "G", "O" }; // Correct letters to fill the blanks
+            string[] words = {
+                "SU_", "SK_", "STA_", "MOO_", "MAR_", "NOV_", "VOI_", "DUS_", "RIN_", "OR_",
+                "AUR_", "LEN_", "POL_", "FLU_", "SPI_", "LUN_", "URS_", "TAI_", "AXI_", "SO_",
+                "BEL_", "HAL_", "DAW_", "DUS_", "HAZ_", "BEA_", "COR_", "SPO_", "ZON_", "PLA_",
+                "LE_", "IO_", "RA_", "GA_", "COM_", "EO_", "RIF_", "ZOO_", "WAR_", "NAS_"
+            };
+
+            string[] correctLetters = {
+                "N","Y","R","N","S","A","D","T","G","B",
+                "A","S","E","X","N","A","A","L","S","L",
+                "T","O","N","K","E","M","E","T","E","N",
+                "O","O","Y","S","A","N","T","M","P","A"
+            }; // Correct letters to fill the blanks
 
                 int index = Random.Range(0, words.Length); // Pick a random word
                 puzzleText.text = $"Complete the word: {words[index]}"; // Display the word with the blank
@@ -310,8 +321,51 @@ public class ColourPattern : MonoBehaviour
             else if (currentDifficulty == Difficulty.Hard)
             {
                 // Hard difficulty: Words with two blanks
-                string[] words = { "CO__T", "AS__ROID", "GAL__Y", "SP__E" }; // Words with two blanks
-                string[] correctLetterPairs = { "ME", "TE", "AX", "AC" }; // Correct two-letter combinations
+                string[] words = {
+                    "PL__ET",  // PLANET
+                    "GA__AXY", // GALAXY
+                    "CO__MET", // COMET
+                    "ME__OR",  // METEOR
+                    "AS__ROID",// ASTEROID
+                    "NE__ULA", // NEBULA
+                    "RO__KET", // ROCKET
+                    "CR__TER", // CRATER
+                    "OR__BIT", // ORBIT
+                    "GR__VITY",// GRAVITY
+                    "AU__ORA", // AURORA
+                    "SA__URN", // SATURN
+                    "JU__ITER",// JUPITER
+                    "NE__TUNE",// NEPTUNE
+                    "EA__RTH", // EARTH
+                    "VE__US",  // VENUS
+                    "UR__NUS", // URANUS
+                    "AL__IEN", // ALIEN
+                    "SP__ACE", // SPACE
+                    "EA__GLE"  // EAGLE (as in lunar module “Eagle”)
+                };
+
+                string[] correctLetterPairs = {
+                    "AN", // PL AN ET
+                    "LA", // GA LA XY
+                    "OM", // CO OM ET
+                    "TE", // ME TE OR
+                    "TE", // AS TE ROID
+                    "BE", // NE BE ULA
+                    "OC", // RO OC KET
+                    "AT", // CR AT ER
+                    "BI", // OR BI T
+                    "RA", // GR RA VITY
+                    "UR", // AU UR ORA
+                    "AT", // SA AT URN
+                    "UP", // JU UP ITER
+                    "PT", // NE PT UNE
+                    "AR", // EA AR TH
+                    "NU", // VE NU S
+                    "AN", // UR AN US
+                    "IE", // AL IE N
+                    "AC", // SP AC E
+                    "AG"  // EA AG LE
+                };// Correct two-letter combinations
 
                 int index = Random.Range(0, words.Length); // Pick a random word
                 puzzleText.text = $"Complete the word: {words[index]}"; // Display the word with blanks

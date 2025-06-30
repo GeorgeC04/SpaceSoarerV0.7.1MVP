@@ -3334,7 +3334,9 @@ MonoBehaviour:
   characterSkins:
   - {fileID: 21300000, guid: b2c69f4eb82ad2345a5ecc5ab3549b8c, type: 3}
   - {fileID: 21300000, guid: 300ae5d6d775aac4797c9ffc5bdde9cb, type: 3}
-  - {fileID: 21300000, guid: ec0555be956103f42844d07bd24227c2, type: 3}
+  - {fileID: 21300000, guid: 23ca744806298fe4d876b12cf528fa73, type: 3}
+  - {fileID: 21300000, guid: 5029af15c995c594c831dc61ed666027, type: 3}
+  - {fileID: 21300000, guid: 5114ac253a677d948826796ebe3e190b, type: 3}
 --- !u!114 &380036931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9393,7 +9395,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2112132550}
+      - m_Target: {fileID: 976844343}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -9405,7 +9407,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1733153671}
+      - m_Target: {fileID: 2112132550}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -14029,7 +14031,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 12
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
