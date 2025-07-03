@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class RandomRockSpawner : MonoBehaviour
 {
-    public GameObject rockPrefab;
+    public GameObject[] rockPrefab;
     public GameObject plane;
     public ScoreCounter currentScore; //Gets the current score
     public float spawnInterval = 0f; // Time interval between spawns
@@ -40,6 +40,10 @@ public class RandomRockSpawner : MonoBehaviour
     private bool rockSpawnAllow = true;
 
     public Difficulty currentDifficulty = Difficulty.Easy;
+    private Dictionary<GameObject, float> rockSpeeds = new Dictionary<GameObject, float>();
+
+
+
 
     void Start()
     {
@@ -89,8 +93,8 @@ public class RandomRockSpawner : MonoBehaviour
         }
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
-        
-        if(thisScore % 7 == 0)
+
+        if (thisScore % 7 == 0)
         {
             if (currentDifficulty == Difficulty.Easy)
             {
@@ -101,8 +105,8 @@ public class RandomRockSpawner : MonoBehaviour
                 rockSpeed += 0.10f;
                 spawnInterval -= 0.0001f;
             }
-           
-            
+
+
         }
 
         // Timer to control spawn interval
@@ -145,12 +149,21 @@ public class RandomRockSpawner : MonoBehaviour
 
         // Move the spawned rocks from right to left
         foreach (GameObject rock in spawnedRocks)
+{
+    if (rock != null)
+    {
+        float speed;
+        if (rockSpeeds.TryGetValue(rock, out speed))
         {
-            if (rock != null)
-            {
-                rock.transform.Translate(Vector3.left * rockSpeed * Time.deltaTime);
-            }
+            rock.transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
         }
+        else
+        {
+            // fallback speed if not found
+            rock.transform.Translate(Vector3.left * rockSpeed * Time.deltaTime, Space.World);
+        }
+    }
+}
 
         // Check if rocks should be destroyed when off-screen
         float screenLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z)).x;
@@ -171,17 +184,13 @@ public class RandomRockSpawner : MonoBehaviour
 
     void SpawnRock()
     {
-        // Determine a random spawn position off-screen to the right
-        //float screenTop = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.transform.position.z)).y;
-        //float screenBottom = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z)).y;
-        //Debug.Log("Previous rock position is... " + previousRockPosition); 
-
-        float spawnY = Random.Range(/*screenBottom*/previousRockPosition - 50, /*screenTop*/ previousRockPosition + 50);
+        float spawnY = Random.Range(previousRockPosition - 50, previousRockPosition + 50);
         while (spawnY < (bottomViewPort - (bottomViewPort / 100) * 80) || spawnY > (topViewPort - (topViewPort / 100) * 5))
         {
-            spawnY = Random.Range(/*screenBottom*/previousRockPosition - 50, /*screenTop*/ previousRockPosition + 50);
+            spawnY = Random.Range(previousRockPosition - 50, previousRockPosition + 50);
         }
         previousRockPosition = spawnY;
+
         Vector3 spawnPosition = spawnPoint.position;
         Vector3 secondSpawnPosition = spawnPoint.position;
         Vector3 blockOffPositionAbove = spawnPoint.position;
@@ -189,52 +198,88 @@ public class RandomRockSpawner : MonoBehaviour
         spawnPosition.y = spawnY;
         secondSpawnPosition.y = spawnY - 150;
 
-        //Debug.Log("Spawning rock at position: " + spawnPosition);
-        GameObject spawnedRock = Instantiate(rockPrefab, spawnPosition, Quaternion.identity);
+        // Pick random rock prefab
+        GameObject randomRockPrefab1 = rockPrefab[Random.Range(0, rockPrefab.Length)];
+        GameObject randomRockPrefab2 = rockPrefab[Random.Range(0, rockPrefab.Length)];
+
+        GameObject spawnedRock = SpawnRandomizedAsteroid(spawnPosition);
+
+
+
         spawnedRock.tag = "Asteroid";
         spawnedRock.SetActive(true);
 
-        GameObject underneathRock = Instantiate(rockPrefab, secondSpawnPosition, Quaternion.identity);
-        underneathRock.tag = "Asteroid";
-        underneathRock.SetActive(true);
+        GameObject underneathRock = SpawnRandomizedAsteroid(secondSpawnPosition);
 
-        // Add the spawned rock to the list
+
         spawnedRocks.Add(spawnedRock);
         spawnedRocks.Add(underneathRock);
 
         blockOffPositionAbove.y = spawnPosition.y;
         blockOffPositionBelow.y = secondSpawnPosition.y;
 
-        print("Spawn position y..." + spawnPosition.y);
-        print("second spawn position y..." + secondSpawnPosition.y);
-
-        //Create the rocks to spawn above and below the maze
         while (blockOffPositionAbove.y < topViewPort)
         {
             blockOffPositionAbove.y += 70;
-            GameObject blockerRock = Instantiate(rockPrefab, blockOffPositionAbove, Quaternion.identity);
+           GameObject blockerRock = SpawnRandomizedAsteroid(blockOffPositionAbove);
+
             blockerRock.tag = "Asteroid";
+            blockerRock.AddComponent<RockRotation>();
             blockerRock.SetActive(true);
             spawnedRocks.Add(blockerRock);
         }
 
-        while(blockOffPositionBelow.y > bottomViewPort)
+        while (blockOffPositionBelow.y > bottomViewPort)
         {
             blockOffPositionBelow.y -= 70;
-            GameObject blockerRock = Instantiate(rockPrefab, blockOffPositionBelow, Quaternion.identity);
+            GameObject blockerRock = SpawnRandomizedAsteroid(blockOffPositionBelow);
+
             blockerRock.tag = "Asteroid";
+            blockerRock.AddComponent<RockRotation>();
             blockerRock.SetActive(true);
             spawnedRocks.Add(blockerRock);
         }
-
-        
-        
-
-        //SpriteRenderer spriteRenderer = spawnedRock.GetComponent<SpriteRenderer>();
-        //if (spriteRenderer != null)
-        //{
-        //  spriteRenderer.sortingLayerName = "Default"; // Ensure this matches a visible sorting layer
-        //spriteRenderer.sortingOrder = 0; // Adjust the sorting order if needed
-        //}
     }
+
+    GameObject SpawnRandomizedAsteroid(Vector3 position)
+{
+    int prefabIndex = Random.Range(0, rockPrefab.Length);
+    Quaternion randomRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+    GameObject asteroid = Instantiate(rockPrefab[prefabIndex], position, randomRotation);
+
+    float randomScale = Random.Range(10f, 15f);
+    asteroid.transform.localScale = Vector3.one * randomScale;
+
+    float speedForThisRock = Random.Range(rockSpeed * 0.95f, rockSpeed * 1.05f);
+    rockSpeeds[asteroid] = speedForThisRock;
+
+    SpriteRenderer sr = asteroid.GetComponent<SpriteRenderer>();
+    if (sr != null)
+    {
+        sr.sortingOrder = Random.Range(-3, 3);
+    }
+
+    asteroid.tag = "Asteroid";
+    asteroid.SetActive(true);
+
+    // ✅ Ensure all spawned rocks rotate
+    asteroid.AddComponent<RockRotation>();
+
+    return asteroid;
+}
+
+
+
+
+
+
+
+
+
+    //SpriteRenderer spriteRenderer = spawnedRock.GetComponent<SpriteRenderer>();
+    //if (spriteRenderer != null)
+    //{
+    //  spriteRenderer.sortingLayerName = "Default"; // Ensure this matches a visible sorting layer
+    //spriteRenderer.sortingOrder = 0; // Adjust the sorting order if needed
+    //}
 }

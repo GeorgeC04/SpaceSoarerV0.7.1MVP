@@ -27,7 +27,7 @@ public class ScoreCounter : MonoBehaviour
     void Update()
     {
         // Increase the score over time
-        score += Time.deltaTime * scoreSpeed;
+        score += Time.deltaTime * scoreSpeed * 100;
 
         // Update the score text
         scoreText.text = "Score: " + Mathf.FloorToInt(score).ToString();

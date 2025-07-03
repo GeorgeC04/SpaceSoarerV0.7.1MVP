@@ -37,6 +37,12 @@ public class Player : MonoBehaviour
 
     public TMP_Text gameOverTxt;
 
+    public AudioSource audioSource; // Main audio source
+    public AudioClip hurtSound;
+    public AudioClip correctAnswerSound;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -113,7 +119,10 @@ public class Player : MonoBehaviour
             canMoveForward = false;
             rb.velocity = Vector2.zero; // Immediately stop the player
 
+
+
             healthBar.GetComponent<healthBar>().loseHealth(gameOverTxt);
+            audioSource.PlayOneShot(hurtSound);
 
         }
 
@@ -121,6 +130,9 @@ public class Player : MonoBehaviour
         {
             // Destroy the correct answer rock
             Destroy(collision.gameObject);
+            audioSource.PlayOneShot(correctAnswerSound);
+            
+
         }
 
         if (collision.gameObject.CompareTag("PowerUp"))
@@ -136,8 +148,10 @@ public class Player : MonoBehaviour
         {
 
             gameOverTxt.text = "GAME OVER!!";
+            audioSource.PlayOneShot(hurtSound);
 
-            while(timer < 10.0){
+            while (timer < 10.0)
+            {
                 timer += Time.deltaTime;
             }
             

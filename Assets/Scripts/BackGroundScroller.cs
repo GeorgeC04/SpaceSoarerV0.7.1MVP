@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
 {
-    public float scrollSpeed = 0.5f;
+    public float scrollSpeed = 0.0f;
     private float offset;
     private Material mat;
     public Texture[] backgrounds;   // Array to store background textures
-    public float changeInterval = 5f;  // Time interval between background changes
+    public float changeInterval = 100f;  // Time interval between background changes
     public float fadeDuration = 1f;    // Duration of the fade effect
     private int currentBackgroundIndex = 0;
     private float timeSinceLastChange = 0f;
