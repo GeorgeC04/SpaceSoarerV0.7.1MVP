@@ -125,11 +125,11 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("PowerUp"))
         {
-            DisplayPuzzleText();
+            //DisplayPuzzleText();
             // Example code to generate a puzzle
-            GeneratePuzzle();
+            //GeneratePuzzle();
             //  coroutine to hide the puzzle text after a delay
-            StartCoroutine(HidePuzzleTextAfterDelay(puzzleDisplayDuration));
+            //StartCoroutine(HidePuzzleTextAfterDelay(puzzleDisplayDuration));
         }
 
         if(collision.gameObject.CompareTag("Asteroid"))

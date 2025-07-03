@@ -1057,6 +1057,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3977734662696974697, guid: 82ae2f431fa2ff444a92e920fa1d5214, type: 3}
+      propertyPath: m_Size.x
+      value: 4.5497184
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 82ae2f431fa2ff444a92e920fa1d5214, type: 3}
+      propertyPath: m_Size.y
+      value: 4.1094403
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 82ae2f431fa2ff444a92e920fa1d5214, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.2201407
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 82ae2f431fa2ff444a92e920fa1d5214, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.22013998
+      objectReference: {fileID: 0}
     - target: {fileID: 4554375058308494470, guid: 82ae2f431fa2ff444a92e920fa1d5214, type: 3}
       propertyPath: m_Name
       value: Rock_Blue
@@ -1326,6 +1342,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1721400904}
   startFrameCount: 0
   questionSpawnInterval: 50
+  currentDifficulty: 0
 --- !u!4 &631427562
 Transform:
   m_ObjectHideFlags: 0
@@ -1619,6 +1636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac7a886c9ff63e44bbfdaa3bef34ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randRockSpawn: {fileID: 631427561}
   random: {fileID: 0}
   scrollSpeed: 0.5
   rockSpeed: 1
@@ -1662,9 +1680,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911f7e533ce936941aa6d9ac7162306c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randRockSpawn: {fileID: 631427561}
   random: {fileID: 0}
   scrollSpeed: 0.5
-  rockSpeed: 1
   spawnDistance: 10
   puzzleText: {fileID: 370301179}
   rockText: {fileID: 370301179}
@@ -1693,6 +1711,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3977734662696974697, guid: 0c5ec516961f8f442b043b20fa708dfc, type: 3}
+      propertyPath: m_Size.x
+      value: 4.6230993
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 0c5ec516961f8f442b043b20fa708dfc, type: 3}
+      propertyPath: m_Size.y
+      value: 4.10944
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 0c5ec516961f8f442b043b20fa708dfc, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.18345022
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 0c5ec516961f8f442b043b20fa708dfc, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2935217
+      objectReference: {fileID: 0}
     - target: {fileID: 4554375058308494470, guid: 0c5ec516961f8f442b043b20fa708dfc, type: 3}
       propertyPath: m_Name
       value: Rock_Green
@@ -2117,6 +2151,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3977734662696974697, guid: e4717b6d3c1e3bc41ad90b36c524bdeb, type: 3}
+      propertyPath: m_Size.x
+      value: 4.69648
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: e4717b6d3c1e3bc41ad90b36c524bdeb, type: 3}
+      propertyPath: m_Size.y
+      value: 4.1094413
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: e4717b6d3c1e3bc41ad90b36c524bdeb, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1467601
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: e4717b6d3c1e3bc41ad90b36c524bdeb, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.29351974
+      objectReference: {fileID: 0}
     - target: {fileID: 4554375058308494470, guid: e4717b6d3c1e3bc41ad90b36c524bdeb, type: 3}
       propertyPath: m_Name
       value: Rock_Brown
@@ -3626,6 +3676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac7a886c9ff63e44bbfdaa3bef34ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randRockSpawn: {fileID: 631427561}
   random: {fileID: 631427560}
   scrollSpeed: 0.5
   rockSpeed: 100
@@ -3654,9 +3705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911f7e533ce936941aa6d9ac7162306c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randRockSpawn: {fileID: 631427561}
   random: {fileID: 631427560}
   scrollSpeed: 0.5
-  rockSpeed: 100
   spawnDistance: 10
   puzzleText: {fileID: 1731394407}
   rockText: {fileID: 370301179}
@@ -3830,6 +3881,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3977734662696974697, guid: 1e4997cb1b30ec34b9b09500175f64da, type: 3}
+      propertyPath: m_Size.x
+      value: 4.696481
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 1e4997cb1b30ec34b9b09500175f64da, type: 3}
+      propertyPath: m_Size.y
+      value: 4.4029603
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 1e4997cb1b30ec34b9b09500175f64da, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.14675927
+      objectReference: {fileID: 0}
+    - target: {fileID: -3977734662696974697, guid: 1e4997cb1b30ec34b9b09500175f64da, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.29351974
+      objectReference: {fileID: 0}
     - target: {fileID: 4554375058308494470, guid: 1e4997cb1b30ec34b9b09500175f64da, type: 3}
       propertyPath: m_Name
       value: Rock_Red

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEditor.PackageManager.UI;
+using System.Runtime.CompilerServices;
 
 /*
 public enum Difficulty
@@ -13,10 +14,12 @@ public enum Difficulty
 */
 public class ColourPattern : MonoBehaviour
 {
+
+    public RandomRockSpawner randRockSpawn;
     public GameObject random;
     [Range(-1f, 1f)]
     public float scrollSpeed = 0.5f;
-    public float rockSpeed = 1.0f;   // Speed at which rocks move from right to left
+    //public float rockSpeed = 1.0f;   // Speed at which rocks move from right to left
     private float offset;
     private Material mat;
     private float distanceMoved = 0f;
@@ -76,22 +79,25 @@ public class ColourPattern : MonoBehaviour
     public void beginPuzzle()
     {
 
+        spawnedRocks.Clear();
+        
+
         Debug.Log("Yep this is being reached");
 
 
-        /*
-                healthBarObject.SetActive(false);
-                currentScore.GetComponent<ScoreCounter>().scoreText.SetText("");
+        
+        healthBarObject.SetActive(false);
+        currentScore.GetComponent<ScoreCounter>().scoreText.SetText("");
 
-                healthBarTxt.text = "";
-        */
+        healthBarTxt.text = "";
+        
         currentDifficulty = GameSettings.SelectedDifficulty;
         Debug.Log($"Starting puzzle with difficulty: {currentDifficulty}");
 
+        
 
-
-        /*
-        mat = GetComponent<Renderer>().material;
+        
+        //mat = GetComponent<Renderer>().material;
         if (puzzleText != null)
         {
             puzzleText.gameObject.SetActive(false);
@@ -100,6 +106,7 @@ public class ColourPattern : MonoBehaviour
         {
             Debug.LogError("PuzzleText is not assigned in the Inspector.");
         }
+        /*
 
         // Randomly decide between math and word puzzles
         if (Random.value > 0.5f) // 50% chance
@@ -122,10 +129,20 @@ public class ColourPattern : MonoBehaviour
                 }
         */
 
-        InitialPuzzleText.text = "Recreate the pattern below!!";
+        puzzleText.gameObject.SetActive(true);
+        puzzleText.text = "Recreate the pattern!!";
 
+        int[] randomNumbers;
 
-        int[] randomNumbers = new int[4];
+        if (currentDifficulty == Difficulty.Easy)
+        {
+            randomNumbers = new int[3];
+        }
+        else
+        {
+            randomNumbers = new int[4];
+        }
+        
 
         for (int i = 0; i < randomNumbers.Length; i++)
         {
@@ -147,10 +164,14 @@ public class ColourPattern : MonoBehaviour
             GameObject spawnedRock = Instantiate(prefabs[number], spawnPosition, Quaternion.identity, spawnStart);
             spawnedRock.SetActive(true);
             spawnedRocks.Add(spawnedRock);
+            spawnedRock.tag = "PowerUp";
 
             RockDespawner rockDespawner = spawnedRock.AddComponent<RockDespawner>();
             //rockDespawner.Initialize(this);
         }
+
+        
+
 
         //Spawn the four rows of of rocks
         //And then set the tag for the right one to be "CorrectAnswer"
@@ -160,13 +181,36 @@ public class ColourPattern : MonoBehaviour
         int xPos = 1600;
         int correctNumber;
 
-        for (int n = 0; n < 4; n++)
+        int sizeOfFor;
+
+        if (currentDifficulty == Difficulty.Easy)
+        {
+            sizeOfFor = 3;
+        }
+        else
+        {
+            sizeOfFor = 4;
+        }
+
+        for (int n = 0; n < sizeOfFor; n++)
         {
 
             int yPos = 150;
-            xPos += 200;
+            xPos += 450;
             correctNumber = randomNumbers[n];
 
+            
+/*
+            if (n == 3 && currentDifficulty != Difficulty.Easy)
+            {
+                InitialPuzzleText.text = "";
+            }
+
+            if (n == 2 && currentDifficulty == Difficulty.Easy)
+            {
+                InitialPuzzleText.text = "";
+            }
+*/
             for (int j = 0; j < 4; j++)
             {
                 Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
@@ -183,8 +227,14 @@ public class ColourPattern : MonoBehaviour
                 {
                     spawnedRock.tag = "CorrectAnswer";
                 }
+                else
+                {
+                    spawnedRock.tag = "Rock";
+                }
             }
         }
+        
+        
 
 
 
@@ -217,10 +267,20 @@ public class ColourPattern : MonoBehaviour
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
 
-        if (thisScore % 20 == 0)
+        
+        if(thisScore % 7 == 0)
         {
-
-            rockSpeed += 0.05f;
+            if (currentDifficulty == Difficulty.Easy)
+            {
+                randRockSpawn.rockSpeed += 0.0005f;
+            }
+            else
+            {
+                randRockSpawn.rockSpeed += 0.10f;
+                randRockSpawn.spawnInterval += 0.0001f;
+            }
+           
+            
         }
 
         // Move the spawned rocks from right to left
@@ -229,7 +289,7 @@ public class ColourPattern : MonoBehaviour
             Debug.Log("We hopefull get it moving at some point?");
             if (rock != null)
             {
-                rock.transform.Translate(Vector3.left * rockSpeed * Time.deltaTime);
+                rock.transform.Translate(Vector3.left * (randRockSpawn.rockSpeed * 0.8f) * Time.deltaTime);
             }
         }
     }
@@ -416,6 +476,7 @@ public class ColourPattern : MonoBehaviour
             Vector3 spawnPosition = spawnPoint.position + new Vector3(0, i * spacing, 0);
             GameObject spawnedRock = Instantiate(rockPrefab, spawnPosition, Quaternion.identity, spawnStart);
             spawnedRock.SetActive(true);
+            
             spawnedRocks.Add(spawnedRock);
 
             RockDespawner rockDespawner = spawnedRock.AddComponent<RockDespawner>();
@@ -500,7 +561,7 @@ public class ColourPattern : MonoBehaviour
         Debug.Log("Spawned rocks count " + spawnedRocks.Count);
 
         // If all rocks are destroyed, hide the puzzle text
-        if (spawnedRocks.Count == 8)
+        if (spawnedRocks.Count == 8) 
         {
             Debug.Log("YES THIS IS HAPPENING");
             HidePuzzleText();

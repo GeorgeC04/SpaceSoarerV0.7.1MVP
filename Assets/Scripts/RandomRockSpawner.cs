@@ -11,7 +11,7 @@ public class RandomRockSpawner : MonoBehaviour
     public GameObject plane;
     public ScoreCounter currentScore; //Gets the current score
     public float spawnInterval = 0f; // Time interval between spawns
-    public float rockSpeed = 0.001f; // Speed at which rocks move from right to left
+    public float rockSpeed = 0.09f; // Speed at which rocks move from right to left
     public int maxRocks = 50; // Maximum number of rocks on screen at one time
     public Transform spawnPoint;
     public int startFrameCount = 0;//300; // Number of frames to wait before starting to spawn rocks
@@ -39,6 +39,8 @@ public class RandomRockSpawner : MonoBehaviour
 
     private bool rockSpawnAllow = true;
 
+    public Difficulty currentDifficulty = Difficulty.Easy;
+
     void Start()
     {
         //previousRockPosition = (Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.transform.position.z)).y - Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z)).y) / 2;
@@ -46,7 +48,20 @@ public class RandomRockSpawner : MonoBehaviour
         bottomViewPort = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z)).y;
         //Centre of the Y view port
         previousRockPosition = 0;
-        // SpawnRock();
+        // SpawnRock();~
+        currentDifficulty = GameSettings.SelectedDifficulty;
+        if (currentDifficulty == Difficulty.Easy)
+        {
+
+            rockSpeed += 0.01f;
+        }
+        else
+        {
+
+            rockSpeed += 0.05f;
+        }
+
+        Debug.Log("Rock speed is... " + rockSpeed);
 
     }
 
@@ -74,11 +89,20 @@ public class RandomRockSpawner : MonoBehaviour
         }
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
-
-        if(thisScore % 20 == 0)
+        
+        if(thisScore % 7 == 0)
         {
+            if (currentDifficulty == Difficulty.Easy)
+            {
+                rockSpeed += 0.0005f;
+            }
+            else
+            {
+                rockSpeed += 0.10f;
+                spawnInterval -= 0.0001f;
+            }
            
-            rockSpeed += 0.05f;
+            
         }
 
         // Timer to control spawn interval
@@ -89,15 +113,17 @@ public class RandomRockSpawner : MonoBehaviour
             if (questionSpawn >= questionSpawnInterval)
             {
                 rockSpawnAllow = false;
-                int whichOne = Random.Range(0, 1);
-                //int whichOne = 1;
+                //int whichOne = Random.Range(0, 2);
+                int whichOne = 1;
                 if (whichOne == 0)
                 {
+                    plane.GetComponent<ColourPattern>().enabled = false;
                     plane.GetComponent<MathsPuzzleManager>().enabled = true;
                     plane.GetComponent<MathsPuzzleManager>().beginPuzzle();
                 }
                 else
                 {
+                    plane.GetComponent<MathsPuzzleManager>().enabled = false;
                     plane.GetComponent<ColourPattern>().enabled = true;
                     plane.GetComponent<ColourPattern>().beginPuzzle();
                 }

@@ -11,6 +11,7 @@ public enum Difficulty
 
 public class MathsPuzzleManager : MonoBehaviour
 {
+    public RandomRockSpawner randRockSpawn;
     public GameObject random;
     [Range(-1f, 1f)]
     public float scrollSpeed = 0.5f;
@@ -124,10 +125,19 @@ public class MathsPuzzleManager : MonoBehaviour
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
 
-        if(thisScore % 20 == 0)
+        if(thisScore % 7 == 0)
         {
+            if (currentDifficulty == Difficulty.Easy)
+            {
+                randRockSpawn.rockSpeed += 0.0005f;
+            }
+            else
+            {
+                randRockSpawn.rockSpeed += 0.10f;
+                randRockSpawn.spawnInterval -= 0.0001f;
+            }
            
-            rockSpeed += 0.05f;
+            
         }
 
         // Move the spawned rocks from right to left
@@ -135,7 +145,7 @@ public class MathsPuzzleManager : MonoBehaviour
         {
             if (rock != null)
             {
-                rock.transform.Translate(Vector3.left * rockSpeed * Time.deltaTime);
+                rock.transform.Translate(Vector3.left * (randRockSpawn.rockSpeed *0.8f) * Time.deltaTime);
             }
         }
     }
