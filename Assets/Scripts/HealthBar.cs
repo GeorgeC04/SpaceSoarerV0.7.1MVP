@@ -1,65 +1,72 @@
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
-using System;
 
 public class healthBar : MonoBehaviour
 {
-
-
+    [Header("Ship Icons (one per life)")]
     public GameObject[] spaceShips;
-    private int spaceShipLength;
 
-    private float timer = 0;
+    // Internal health count
+    private int currentHealth;
 
+    // Expose so PuzzleLauncher can read it
+    public int CurrentHealth => currentHealth;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        spaceShipLength = spaceShips.Length;
+        // 1) Restore from PlayerPrefs if present
+        if (PlayerPrefs.HasKey("SavedHealth"))
+        {
+            currentHealth = PlayerPrefs.GetInt("SavedHealth");
+            PlayerPrefs.DeleteKey("SavedHealth");
+        }
+        else
+        {
+            // First time play: full health
+            currentHealth = spaceShips.Length;
+        }
+
+        RefreshDisplay();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Call to lose one health—and if zero, ends the game.
+    /// </summary>
     public void loseHealth(TMP_Text gameOverTxt)
     {
-        if (spaceShipLength - 1 <= 0)
+        // Decrement
+        currentHealth = Mathf.Max(0, currentHealth - 1);
+        RefreshDisplay();
+
+        if (currentHealth <= 0)
         {
-            spaceShips[spaceShipLength - 1].SetActive(false);
             gameOverTxt.text = "GAME OVER!!";
 
-            // Find the ScoreCounter component
-            ScoreCounter scoreCounter = FindObjectOfType<ScoreCounter>();
+            // Save high score
+            var scoreCounter = FindObjectOfType<ScoreCounter>();
             if (scoreCounter != null)
             {
-                // Retrieve the current score and player name
-                float currentScore = scoreCounter.score;
-                string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
-
-                // Save the high score
-                scoreCounter.SaveHighScore(currentScore, playerName);
+                scoreCounter.SaveHighScore(scoreCounter.score,
+                    PlayerPrefs.GetString("PlayerName", "Unknown"));
             }
 
-            // Load the main menu scene
+            // Load main menu
             SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            spaceShips[spaceShipLength - 1].SetActive(false);
-            spaceShipLength--;
+            // Optional: save intermediate health in case of puzzle launch
+            PlayerPrefs.SetInt("SavedHealth", currentHealth);
+            PlayerPrefs.Save();
         }
     }
-        private IEnumerator WaitAndLoadMainMenu()
+
+    // Refreshes which ship icons are active
+    private void RefreshDisplay()
     {
-        yield return new WaitForSeconds(0.1f); // Wait for 2 seconds
-        SceneManager.LoadScene(0); // Load the main menu scene
+        for (int i = 0; i < spaceShips.Length; i++)
+            spaceShips[i].SetActive(i < currentHealth);
     }
-
-
 }

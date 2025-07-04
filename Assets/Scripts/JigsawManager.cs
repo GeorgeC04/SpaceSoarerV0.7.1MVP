@@ -34,16 +34,38 @@ public ScoreCounter scoreCounter;
 
   
 
-  void Start() {
-    // Create the UI
-    foreach (Texture2D texture in imageTextures) {
-      Image image = Instantiate(levelSelectPrefab, levelSelectPanel);
-      image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-      // Assign button action
-      image.GetComponent<Button>().onClick.AddListener(delegate { StartGame(texture); });
-    }
-  }
+void Start()
+{
+    // 0) Clean out any existing buttons (in case you re-enter this scene multiple times)
+    foreach (Transform child in levelSelectPanel)
+        Destroy(child.gameObject);
 
+    // 1) Pick one random texture
+    if (imageTextures == null || imageTextures.Count == 0)
+    {
+        Debug.LogError("No puzzles assigned!");
+        return;
+    }
+    int randIndex = Random.Range(0, imageTextures.Count);
+    Texture2D chosen = imageTextures[randIndex];
+
+    // 2) Instantiate exactly one preview button
+    Image img = Instantiate(levelSelectPrefab, levelSelectPanel);
+    img.sprite = Sprite.Create(
+        chosen,
+        new Rect(0, 0, chosen.width, chosen.height),
+        Vector2.zero
+    );
+
+    // 3) Wire it up
+    var btn = img.GetComponent<Button>();
+    if (btn == null)
+    {
+        Debug.LogError("LevelSelectPrefab needs a Button component!");
+        return;
+    }
+    btn.onClick.AddListener(() => StartGame(chosen));
+}
   public void StartGame(Texture2D jigsawTexture) {
     // Hide the UI
     levelSelectPanel.gameObject.SetActive(false);
@@ -221,9 +243,15 @@ public ScoreCounter scoreCounter;
 
       // Increase the number of correct pieces, and check for puzzle completion.
       piecesCorrect++;
-      if (piecesCorrect == pieces.Count) {
-        playAgainButton.SetActive(true);
+      if (piecesCorrect == pieces.Count)
+      {
+          //playAgainButton.SetActive(true);
+
+          // Notify the UI manager that the puzzle succeeded:
+          var ui = FindObjectOfType<JigsawUIManager>();
+          if (ui != null) ui.EndPuzzle(true);
       }
+
     }
   }
 

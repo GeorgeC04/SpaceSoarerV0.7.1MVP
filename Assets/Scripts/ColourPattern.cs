@@ -383,25 +383,25 @@ public class ColourPattern : MonoBehaviour
                 // Hard difficulty: Words with two blanks
                 string[] words = {
                     "PL__ET",  // PLANET
-                    "GA__AXY", // GALAXY
-                    "CO__MET", // COMET
+                    "GA__XY", // GALAXY
+                    "CO__T", // COMET
                     "ME__OR",  // METEOR
                     "AS__ROID",// ASTEROID
-                    "NE__ULA", // NEBULA
-                    "RO__KET", // ROCKET
-                    "CR__TER", // CRATER
-                    "OR__BIT", // ORBIT
-                    "GR__VITY",// GRAVITY
-                    "AU__ORA", // AURORA
-                    "SA__URN", // SATURN
-                    "JU__ITER",// JUPITER
-                    "NE__TUNE",// NEPTUNE
-                    "EA__RTH", // EARTH
-                    "VE__US",  // VENUS
-                    "UR__NUS", // URANUS
-                    "AL__IEN", // ALIEN
-                    "SP__ACE", // SPACE
-                    "EA__GLE"  // EAGLE (as in lunar module “Eagle”)
+                    "NE__LA", // NEBULA
+                    "RO__ET", // ROCKET
+                    "CR__ER", // CRATER
+                    "OR__T", // ORBIT
+                    "G__VITY",// GRAVITY
+                    "AU__RA", // AURORA
+                    "SA__RN", // SATURN
+                    "JU__TER",// JUPITER
+                    "NE__UNE",// NEPTUNE
+                    "E__TH", // EARTH
+                    "VE__S",  // VENUS
+                    "UR__US", // URANUS
+                    "AL__N", // ALIEN
+                    "SP__E", // SPACE
+                    "E__LE"  // EAGLE (as in lunar module “Eagle”)
                 };
 
                 string[] correctLetterPairs = {
