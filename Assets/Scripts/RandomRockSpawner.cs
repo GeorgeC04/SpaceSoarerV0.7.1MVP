@@ -117,8 +117,8 @@ public class RandomRockSpawner : MonoBehaviour
             if (questionSpawn >= questionSpawnInterval)
             {
                 rockSpawnAllow = false;
-                //int whichOne = Random.Range(0, 2);
-                int whichOne = 1;
+                int whichOne = Random.Range(0, 2);
+                //int whichOne = 1;
                 if (whichOne == 0)
                 {
                     plane.GetComponent<ColourPattern>().enabled = false;
@@ -191,12 +191,23 @@ public class RandomRockSpawner : MonoBehaviour
         }
         previousRockPosition = spawnY;
 
+
+        float offsetX = 100f; // Adjust this value to control how far to the right 
+
+
         Vector3 spawnPosition = spawnPoint.position;
         Vector3 secondSpawnPosition = spawnPoint.position;
         Vector3 blockOffPositionAbove = spawnPoint.position;
         Vector3 blockOffPositionBelow = spawnPoint.position;
         spawnPosition.y = spawnY;
         secondSpawnPosition.y = spawnY - 150;
+
+        spawnPosition.x += offsetX;
+        secondSpawnPosition.x += offsetX;
+        blockOffPositionAbove.x += offsetX;
+        blockOffPositionBelow.x += offsetX;
+
+        
 
         // Pick random rock prefab
         GameObject randomRockPrefab1 = rockPrefab[Random.Range(0, rockPrefab.Length)];

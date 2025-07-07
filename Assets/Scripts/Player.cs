@@ -37,9 +37,11 @@ public class Player : MonoBehaviour
 
     public TMP_Text gameOverTxt;
 
-    public AudioSource audioSource; // Main audio source
-    public AudioClip hurtSound;
+    public AudioClip collisionSound;
     public AudioClip correctAnswerSound;
+    public AudioClip hoverSound;
+
+    private AudioSource audioSource;
 
 
 
@@ -52,6 +54,9 @@ public class Player : MonoBehaviour
         {
             answerText.text = "";
         }
+
+        audioSource = GetComponent<AudioSource>();
+
 
         // Determine the screen boundaries in world space
         Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
@@ -120,17 +125,18 @@ public class Player : MonoBehaviour
             rb.velocity = Vector2.zero; // Immediately stop the player
 
 
-
+            audioSource.PlayOneShot(collisionSound);
             healthBar.GetComponent<healthBar>().loseHealth(gameOverTxt);
-            audioSource.PlayOneShot(hurtSound);
+            
 
         }
 
         if (collision.gameObject.CompareTag("CorrectAnswer"))
         {
             // Destroy the correct answer rock
-            Destroy(collision.gameObject);
             audioSource.PlayOneShot(correctAnswerSound);
+            Destroy(collision.gameObject);
+            
             
 
         }
@@ -142,13 +148,14 @@ public class Player : MonoBehaviour
             //GeneratePuzzle();
             //  coroutine to hide the puzzle text after a delay
             //StartCoroutine(HidePuzzleTextAfterDelay(puzzleDisplayDuration));
+            //audioSource.PlayOneShot(correctAnswerSound);
         }
 
         if(collision.gameObject.CompareTag("Asteroid"))
         {
 
             gameOverTxt.text = "GAME OVER!!";
-            audioSource.PlayOneShot(hurtSound);
+            
 
             while (timer < 10.0)
             {
@@ -160,7 +167,7 @@ public class Player : MonoBehaviour
             //timer += Time.deltaTime;
 
 
-            
+            audioSource.PlayOneShot(collisionSound);
             healthBar.GetComponent<healthBar>().loseHealth(gameOverTxt);
 
 

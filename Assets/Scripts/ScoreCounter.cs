@@ -14,7 +14,21 @@ public class ScoreCounter : MonoBehaviour
     [Header("Auto-Puzzle Settings")]
     public float puzzleInterval = 100f;          // fire every 100 points
     private int puzzlesTriggered = 0;            // how many intervals we've already passed
-    public PuzzleLauncher puzzleLauncher; 
+    public PuzzleLauncher puzzleLauncher;
+
+    [Header("Level Up Settings")]
+    public TMP_Text levelUpText;
+    public CanvasGroup levelUpCanvas;
+    public AudioSource audioSource;
+    public AudioClip levelUpSound;
+
+    public int levelUpEvery = 20; // Every 100 points
+    private int nextLevelUpScore = 20;
+
+    private bool isShowingLevelUp = false;
+
+    private int lastLevelUpScore = 0;
+
 
     void Start()
     {
@@ -38,14 +52,15 @@ public class ScoreCounter : MonoBehaviour
     }
 
     void Update()
-    {
-        // Increase the score over time
-        score += Time.deltaTime * scoreSpeed;
+{
+    // Increase the score over time
+    score += Time.deltaTime * scoreSpeed;
 
-        // Update the score text
-        scoreText.text = "Score: " + Mathf.FloorToInt(score);
-
-        // int intervals = Mathf.FloorToInt(score / puzzleInterval);
+    // Update the score text
+    int intScore = Mathf.FloorToInt(score);
+    scoreText.text =  intScore.ToString();
+    
+    // int intervals = Mathf.FloorToInt(score / puzzleInterval);
 
         // // 3) if we've crossed a new one, trigger once per interval
         // if (intervals > puzzlesTriggered)
@@ -57,7 +72,22 @@ public class ScoreCounter : MonoBehaviour
         //     else
         //         Debug.LogWarning("PuzzleLauncher not assigned on ScoreCounter!");
         // }
-    }
+
+    // Trigger Level Up every X points
+        intScore = Mathf.FloorToInt(score);
+
+if (intScore >= lastLevelUpScore + levelUpEvery)
+{   
+    //levelUpEvery = (levelUpEvery * 2) - 19; If we want to increase the amount of score it takes to level up.
+    lastLevelUpScore += levelUpEvery;
+    StartCoroutine(ShowLevelUp());
+    if (levelUpSound != null && audioSource != null)
+        audioSource.PlayOneShot(levelUpSound);
+}
+
+
+}
+
 
     public void EndGame()
     {
@@ -91,4 +121,72 @@ public class ScoreCounter : MonoBehaviour
 
         PlayerPrefs.Save();
     }
+    
+   private IEnumerator ShowLevelUp()
+{
+    isShowingLevelUp = true;
+    levelUpText.gameObject.SetActive(true);
+
+    float duration = 0.5f;
+    float pauseTime = 0.3f;
+    float fadeOutDuration = 0.5f;
+
+    Vector3 startPos = levelUpText.transform.localPosition + new Vector3(0, -30f, 0);
+    Vector3 midPos = levelUpText.transform.localPosition;
+    Vector3 endPos = midPos + new Vector3(0, -30f, 0);
+
+    levelUpText.transform.localPosition = startPos;
+    levelUpCanvas.alpha = 0f;
+
+    float flashSpeed = 4f;  // Number of flashes per second
+
+    // Fade in and move up with flashing
+    float t = 0f;
+    while (t < duration)
+    {
+        t += Time.deltaTime;
+        float progress = t / duration;
+        levelUpText.transform.localPosition = Vector3.Lerp(startPos, midPos, progress);
+
+        // Flash alpha: oscillate between 0 and 1 quickly
+        float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+        levelUpCanvas.alpha = flashAlpha;
+
+        yield return null;
+    }
+
+    // Pause with flashing
+    float pauseTimer = 0f;
+    while (pauseTimer < pauseTime)
+    {
+        pauseTimer += Time.deltaTime;
+
+        float flashAlpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
+        levelUpCanvas.alpha = flashAlpha;
+
+        yield return null;
+    }
+
+    // Fade out and move down with flashing
+    t = 0f;
+    while (t < fadeOutDuration)
+    {
+        t += Time.deltaTime;
+        float progress = t / fadeOutDuration;
+        levelUpText.transform.localPosition = Vector3.Lerp(midPos, endPos, progress);
+
+        // Flash alpha combined with fade out
+        float baseAlpha = Mathf.Lerp(1f, 0f, progress);
+        float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+        levelUpCanvas.alpha = baseAlpha * flashAlpha;
+
+        yield return null;
+    }
+
+    levelUpText.gameObject.SetActive(false);
+    isShowingLevelUp = false;
+}
+
+
+
 }

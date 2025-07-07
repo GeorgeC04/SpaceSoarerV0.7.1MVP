@@ -38,6 +38,10 @@ public class ColourPattern : MonoBehaviour
     private int correctAnswer;
     private string correctWordAnswer;
 
+    public CanvasGroup recreatePatternCanvas;
+
+    public bool isShowingText = false;
+
     //private bool questionDisplayed = false;
     //private bool rocksSpawned = false;
     private List<GameObject> spawnedRocks = new List<GameObject>();
@@ -80,23 +84,23 @@ public class ColourPattern : MonoBehaviour
     {
 
         spawnedRocks.Clear();
-        
+
 
         Debug.Log("Yep this is being reached");
 
 
-        
-        healthBarObject.SetActive(false);
+
+        //healthBarObject.SetActive(false);
         currentScore.GetComponent<ScoreCounter>().scoreText.SetText("");
 
-        healthBarTxt.text = "";
-        
+        //healthBarTxt.text = "";
+
         currentDifficulty = GameSettings.SelectedDifficulty;
         Debug.Log($"Starting puzzle with difficulty: {currentDifficulty}");
 
-        
 
-        
+
+
         //mat = GetComponent<Renderer>().material;
         if (puzzleText != null)
         {
@@ -129,8 +133,11 @@ public class ColourPattern : MonoBehaviour
                 }
         */
 
-        puzzleText.gameObject.SetActive(true);
         puzzleText.text = "Recreate the pattern!!";
+        StartCoroutine(ShowPuzzleTextAnimated());
+        
+
+
 
         int[] randomNumbers;
 
@@ -142,7 +149,7 @@ public class ColourPattern : MonoBehaviour
         {
             randomNumbers = new int[4];
         }
-        
+
 
         for (int i = 0; i < randomNumbers.Length; i++)
         {
@@ -170,7 +177,7 @@ public class ColourPattern : MonoBehaviour
             //rockDespawner.Initialize(this);
         }
 
-        
+
 
 
         //Spawn the four rows of of rocks
@@ -199,18 +206,18 @@ public class ColourPattern : MonoBehaviour
             xPos += 450;
             correctNumber = randomNumbers[n];
 
-            
-/*
-            if (n == 3 && currentDifficulty != Difficulty.Easy)
-            {
-                InitialPuzzleText.text = "";
-            }
 
-            if (n == 2 && currentDifficulty == Difficulty.Easy)
-            {
-                InitialPuzzleText.text = "";
-            }
-*/
+            /*
+                        if (n == 3 && currentDifficulty != Difficulty.Easy)
+                        {
+                            InitialPuzzleText.text = "";
+                        }
+
+                        if (n == 2 && currentDifficulty == Difficulty.Easy)
+                        {
+                            InitialPuzzleText.text = "";
+                        }
+            */
             for (int j = 0; j < 4; j++)
             {
                 Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
@@ -233,12 +240,12 @@ public class ColourPattern : MonoBehaviour
                 }
             }
         }
-        
-        
 
 
 
-            
+
+
+
 
 
 
@@ -267,8 +274,8 @@ public class ColourPattern : MonoBehaviour
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
 
-        
-        if(thisScore % 7 == 0)
+
+        if (thisScore % 7 == 0)
         {
             if (currentDifficulty == Difficulty.Easy)
             {
@@ -279,8 +286,8 @@ public class ColourPattern : MonoBehaviour
                 randRockSpawn.rockSpeed += 0.10f;
                 randRockSpawn.spawnInterval += 0.0001f;
             }
-           
-            
+
+
         }
 
         // Move the spawned rocks from right to left
@@ -305,7 +312,7 @@ public class ColourPattern : MonoBehaviour
                 int num2 = Random.Range(1, 20);
                 correctAnswer = num1 + num2;
                 puzzleText.text = $"{num1} + {num2} = ?";
-                puzzleText.gameObject.SetActive(true);
+                StartCoroutine(ShowPuzzleTextAnimatedNotColoured());
             }
             else
             {
@@ -343,7 +350,7 @@ public class ColourPattern : MonoBehaviour
 
                 }
 
-                puzzleText.gameObject.SetActive(true);
+                StartCoroutine(ShowPuzzleTextAnimatedNotColoured());
             }
             else
             {
@@ -360,14 +367,14 @@ public class ColourPattern : MonoBehaviour
             if (currentDifficulty == Difficulty.Easy)
             {
                 // Easy difficulty: Words with one blank
-            string[] words = {
+                string[] words = {
                 "SU_", "SK_", "STA_", "MOO_", "MAR_", "NOV_", "VOI_", "DUS_", "RIN_", "OR_",
                 "AUR_", "LEN_", "POL_", "FLU_", "SPI_", "LUN_", "URS_", "TAI_", "AXI_", "SO_",
                 "BEL_", "HAL_", "DAW_", "DUS_", "HAZ_", "BEA_", "COR_", "SPO_", "ZON_", "PLA_",
                 "LE_", "IO_", "RA_", "GA_", "COM_", "EO_", "RIF_", "ZOO_", "WAR_", "NAS_"
             };
 
-            string[] correctLetters = {
+                string[] correctLetters = {
                 "N","Y","R","N","S","A","D","T","G","B",
                 "A","S","E","X","N","A","A","L","S","L",
                 "T","O","N","K","E","M","E","T","E","N",
@@ -433,7 +440,7 @@ public class ColourPattern : MonoBehaviour
                 correctWordAnswer = correctLetterPairs[index]; // Store the two-letter answer
             }
 
-            puzzleText.gameObject.SetActive(true); // Show the puzzle text
+            StartCoroutine(ShowPuzzleTextAnimatedNotColoured()); // Show the puzzle text
         }
         else
         {
@@ -476,7 +483,7 @@ public class ColourPattern : MonoBehaviour
             Vector3 spawnPosition = spawnPoint.position + new Vector3(0, i * spacing, 0);
             GameObject spawnedRock = Instantiate(rockPrefab, spawnPosition, Quaternion.identity, spawnStart);
             spawnedRock.SetActive(true);
-            
+
             spawnedRocks.Add(spawnedRock);
 
             RockDespawner rockDespawner = spawnedRock.AddComponent<RockDespawner>();
@@ -561,7 +568,7 @@ public class ColourPattern : MonoBehaviour
         Debug.Log("Spawned rocks count " + spawnedRocks.Count);
 
         // If all rocks are destroyed, hide the puzzle text
-        if (spawnedRocks.Count == 8) 
+        if (spawnedRocks.Count == 8)
         {
             Debug.Log("YES THIS IS HAPPENING");
             HidePuzzleText();
@@ -570,4 +577,139 @@ public class ColourPattern : MonoBehaviour
             this.enabled = false;
         }
     }
+
+   private IEnumerator ShowPuzzleTextAnimated()
+{
+    isShowingText = true;
+    puzzleText.gameObject.SetActive(true);
+
+    RectTransform rect = puzzleText.GetComponent<RectTransform>();
+
+    // Set fixed start position here, so it resets every time
+    Vector2 fixedStartPos = new Vector2(-12.7959f, 1f);
+    rect.anchoredPosition = fixedStartPos;
+
+    Vector2 midPos = fixedStartPos;
+    Vector2 startPos = midPos + new Vector2(0f, -30f);
+    Vector2 endPos = midPos + new Vector2(0f, -30f);
+
+    // Immediately move to startPos (30 units below fixed start)
+    rect.anchoredPosition = startPos;
+
+    float duration = 0.5f;
+    float pauseTime = 1.5f;
+    float fadeOutDuration = 0.5f;
+
+    CanvasGroup puzzleCanvas = puzzleText.GetComponent<CanvasGroup>();
+    if (puzzleCanvas == null) puzzleCanvas = puzzleText.gameObject.AddComponent<CanvasGroup>();
+    puzzleCanvas.alpha = 0f;
+
+    float flashSpeed = 4f;
+
+    // Fade in + move up
+    float t = 0f;
+    while (t < duration)
+    {
+        t += Time.deltaTime;
+        float progress = t / duration;
+        rect.anchoredPosition = Vector2.Lerp(startPos, midPos, progress);
+        puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+        yield return null;
+    }
+
+    // Pause
+    float pauseTimer = 0f;
+    while (pauseTimer < pauseTime)
+    {
+        pauseTimer += Time.deltaTime;
+        puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
+        yield return null;
+    }
+
+    // Fade out + move down
+    t = 0f;
+    while (t < fadeOutDuration)
+    {
+        t += Time.deltaTime;
+        float progress = t / fadeOutDuration;
+        rect.anchoredPosition = Vector2.Lerp(midPos, endPos, progress);
+        float baseAlpha = Mathf.Lerp(1f, 0f, progress);
+        float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+        puzzleCanvas.alpha = baseAlpha * flashAlpha;
+        yield return null;
+    }
+
+    puzzleText.gameObject.SetActive(false);
+    isShowingText = false;
+}
+
+
+
+
+     private IEnumerator ShowPuzzleTextAnimatedNotColoured()
+    {
+        isShowingText = true;
+        puzzleText.gameObject.SetActive(true);
+
+        float duration = 0.5f;
+        float pauseTime = 3f;
+        float fadeOutDuration = 0.5f;
+
+        Vector3 startPos = puzzleText.transform.localPosition + new Vector3(0, -30f, 0);
+        Vector3 midPos = puzzleText.transform.localPosition;
+        Vector3 endPos = midPos + new Vector3(0, -30f, 0);
+
+        puzzleText.transform.localPosition = startPos;
+
+        CanvasGroup puzzleCanvas = puzzleText.GetComponent<CanvasGroup>();
+        puzzleCanvas.alpha = 0f;
+
+        float flashSpeed = 4f;
+
+        // Fade in + move up with flashing
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float progress = t / duration;
+            puzzleText.transform.localPosition = Vector3.Lerp(startPos, midPos, progress);
+            yield return null;
+        }
+
+        // Pause + flashing
+        float pauseTimer = 0f;
+        while (pauseTimer < pauseTime)
+        {
+            pauseTimer += Time.deltaTime;
+            puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
+            yield return null;
+        }
+
+        // Fade out + move down
+        t = 0f;
+        while (t < fadeOutDuration)
+        {
+            t += Time.deltaTime;
+            float progress = t / fadeOutDuration;
+            puzzleText.transform.localPosition = Vector3.Lerp(midPos, endPos, progress);
+            float baseAlpha = Mathf.Lerp(1f, 0f, progress);
+            float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+            puzzleCanvas.alpha = baseAlpha * flashAlpha;
+            yield return null;
+        }
+
+        puzzleText.gameObject.SetActive(false);
+        isShowingText = false;
+    }
+
+
+
+    
+
+
+
+    
+
+
+
 }
