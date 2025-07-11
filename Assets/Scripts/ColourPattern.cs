@@ -457,8 +457,8 @@ public class ColourPattern : MonoBehaviour
             puzzleText.gameObject.SetActive(false);
         }
 
-        healthBarObject.SetActive(true);
-        healthBarTxt.text = "Health: ";
+        //healthBarObject.SetActive(true);
+        //healthBarTxt.text = "Health: ";
     }
 
     void SpawnRocks()
@@ -568,7 +568,7 @@ public class ColourPattern : MonoBehaviour
         Debug.Log("Spawned rocks count " + spawnedRocks.Count);
 
         // If all rocks are destroyed, hide the puzzle text
-        if (spawnedRocks.Count == 8)
+        if ((currentDifficulty == Difficulty.Easy && spawnedRocks.Count == 7) || (currentDifficulty == Difficulty.Hard && spawnedRocks.Count == 8))
         {
             Debug.Log("YES THIS IS HAPPENING");
             HidePuzzleText();

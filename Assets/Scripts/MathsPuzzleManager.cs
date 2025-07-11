@@ -72,7 +72,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
     public void beginPuzzle()
     {
-        healthBarObject.SetActive(false);
+        //healthBarObject.SetActive(false);
         currentScore.GetComponent<ScoreCounter>().scoreText.SetText("");
 
         healthBarTxt.text = "";
@@ -306,8 +306,8 @@ public class MathsPuzzleManager : MonoBehaviour
             puzzleText.gameObject.SetActive(false);
         }
 
-        healthBarObject.SetActive(true);
-        healthBarTxt.text = "Health: ";
+        //healthBarObject.SetActive(true);
+        //healthBarTxt.text = "Health: ";
     }
 
     void SpawnRocks()
