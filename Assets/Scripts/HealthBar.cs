@@ -16,7 +16,10 @@ public class healthBar : MonoBehaviour
 
     void Awake()
     {
-        // 1) Restore from PlayerPrefs if present
+        // Don’t carry over a paused state
+        Time.timeScale = 1f;
+
+        // 1) If there’s a saved health value, restore and clear it
         if (PlayerPrefs.HasKey("SavedHealth"))
         {
             currentHealth = PlayerPrefs.GetInt("SavedHealth");
@@ -24,7 +27,7 @@ public class healthBar : MonoBehaviour
         }
         else
         {
-            // First time play: full health
+            // 2) Otherwise this is a brand-new run: start at full health
             currentHealth = spaceShips.Length;
         }
 
@@ -36,34 +39,27 @@ public class healthBar : MonoBehaviour
     /// </summary>
     public void loseHealth(TMP_Text gameOverTxt)
     {
-        // Decrement
         currentHealth = Mathf.Max(0, currentHealth - 1);
         RefreshDisplay();
 
         if (currentHealth <= 0)
         {
             gameOverTxt.text = "GAME OVER!!";
-
-            // Save high score
             var scoreCounter = FindObjectOfType<ScoreCounter>();
             if (scoreCounter != null)
-            {
                 scoreCounter.SaveHighScore(scoreCounter.score,
                     PlayerPrefs.GetString("PlayerName", "Unknown"));
-            }
 
-            // Load main menu
             SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            // Optional: save intermediate health in case of puzzle launch
+            // Save for when we jump into a puzzle and back
             PlayerPrefs.SetInt("SavedHealth", currentHealth);
             PlayerPrefs.Save();
         }
     }
 
-    // Refreshes which ship icons are active
     private void RefreshDisplay()
     {
         for (int i = 0; i < spaceShips.Length; i++)

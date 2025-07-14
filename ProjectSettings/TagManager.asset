@@ -48,3 +48,6 @@ TagManager:
   - name: HUD
     uniqueID: 2380961129
     locked: 0
+  - name: Pieces
+    uniqueID: 642561257
+    locked: 0

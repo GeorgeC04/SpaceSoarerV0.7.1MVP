@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class JigsawUIManager : MonoBehaviour
+public class SlidingPuzzleUIManager : MonoBehaviour
 {
     [Header("UI References")]
     public TMP_Text timerText;       
@@ -11,7 +11,7 @@ public class JigsawUIManager : MonoBehaviour
     public TMP_Text livesText;       
 
     [Header("Puzzle Settings")]
-    public float puzzleDuration = 30f;  
+    public float puzzleDuration = 60f;  
     public int rewardPoints    = 10;     // points for success
     public string gameSceneName = "NewGame";
 

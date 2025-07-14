@@ -12,7 +12,7 @@ public class ScoreCounter : MonoBehaviour
 
     private string playerName;     // Store the player's name
     [Header("Auto-Puzzle Settings")]
-    public float puzzleInterval = 100f;          // fire every 100 points
+    public float puzzleInterval = 21f;          // fire every 100 points
     private int puzzlesTriggered = 0;            // how many intervals we've already passed
     public PuzzleLauncher puzzleLauncher;
 
@@ -60,33 +60,33 @@ public class ScoreCounter : MonoBehaviour
     int intScore = Mathf.FloorToInt(score);
     scoreText.text =  intScore.ToString();
     
-    // int intervals = Mathf.FloorToInt(score / puzzleInterval);
+    int intervals = Mathf.FloorToInt(score / puzzleInterval);
 
-        // // 3) if we've crossed a new one, trigger once per interval
-        // if (intervals > puzzlesTriggered)
-        // {
-        //     puzzlesTriggered = intervals;
+        // 3) if we've crossed a new one, trigger once per interval
+        if (intervals > puzzlesTriggered)
+        {
+            puzzlesTriggered = intervals;
 
-        //     if (puzzleLauncher != null)
-        //         puzzleLauncher.LaunchPuzzle();
-        //     else
-        //         Debug.LogWarning("PuzzleLauncher not assigned on ScoreCounter!");
-        // }
+            if (puzzleLauncher != null)
+                puzzleLauncher.LaunchPuzzle();
+            else
+                Debug.LogWarning("PuzzleLauncher not assigned on ScoreCounter!");
+        }
 
     // Trigger Level Up every X points
         intScore = Mathf.FloorToInt(score);
 
-if (intScore >= lastLevelUpScore + levelUpEvery)
-{   
-    //levelUpEvery = (levelUpEvery * 2) - 19; If we want to increase the amount of score it takes to level up.
-    lastLevelUpScore += levelUpEvery;
-    StartCoroutine(ShowLevelUp());
-    if (levelUpSound != null && audioSource != null)
-        audioSource.PlayOneShot(levelUpSound);
-}
+    if (intScore >= lastLevelUpScore + levelUpEvery)
+    {   
+        //levelUpEvery = (levelUpEvery * 2) - 19; If we want to increase the amount of score it takes to level up.
+        lastLevelUpScore += levelUpEvery;
+        StartCoroutine(ShowLevelUp());
+        if (levelUpSound != null && audioSource != null)
+            audioSource.PlayOneShot(levelUpSound);
+    }
 
 
-}
+    }
 
 
     public void EndGame()

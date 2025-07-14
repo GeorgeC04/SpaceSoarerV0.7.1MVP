@@ -13,7 +13,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private int defaultVolume = 100;
 
     private bool _isFullScreen;
-    
+
 
 
 
@@ -45,7 +45,7 @@ public class MenuController : MonoBehaviour
         List<string> options = new List<string>();
 
         int currentResolutionIndex = 0;
-        for(int i = 0; i  < resolutions.Length ; i++)
+        for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
             options.Add(option);
@@ -53,7 +53,7 @@ public class MenuController : MonoBehaviour
             if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
             {
                 currentResolutionIndex = i;
-            } 
+            }
         }
 
         resolutionDropdown.AddOptions(options);
@@ -62,7 +62,7 @@ public class MenuController : MonoBehaviour
     }
 
 
-    
+
 
     public void SetResolution(int resolutionIndex)
     {
@@ -76,6 +76,8 @@ public class MenuController : MonoBehaviour
 
         // Save the player's name if necessary
         PlayerPrefs.SetString("PlayerName", playerName);
+        PlayerPrefs.DeleteKey("SavedScore");
+        PlayerPrefs.DeleteKey("SavedHealth");
 
         PlayerPrefs.Save();
         // Set the current difficulty from GameSettings
@@ -148,9 +150,9 @@ public class MenuController : MonoBehaviour
     }
     public void GraphicsApply()
     {
-        
 
-        PlayerPrefs.SetInt("masterFullscreen" , (_isFullScreen ? 1 : 0));
+
+        PlayerPrefs.SetInt("masterFullscreen", (_isFullScreen ? 1 : 0));
         Screen.fullScreen = _isFullScreen;
 
         StartCoroutine(ConfirmationBox());
@@ -160,6 +162,11 @@ public class MenuController : MonoBehaviour
     public void loadLevel()
     {
         SceneManager.LoadScene("NewGame");
+    }
+
+    public void Reset()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
 
