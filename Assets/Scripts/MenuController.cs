@@ -31,34 +31,43 @@ public class MenuController : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
     private Resolution[] resolutions;
 
+    const string ResolutionPrefKey = "ResolutionIndex";
+
 
 
 
 
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
-
+        // 1) Grab all supported resolutions and build the dropdown
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
-
-        List<string> options = new List<string>();
+        var options = new List<string>(resolutions.Length);
 
         int currentResolutionIndex = 0;
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
+            var r = resolutions[i];
+            options.Add($"{r.width} x {r.height}");
 
-            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
-            {
+            if (r.width == Screen.width && r.height == Screen.height)
                 currentResolutionIndex = i;
-            }
         }
 
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
+
+        // 2) Pick up any saved index (or fall back to whatever we detected above)
+        int savedIndex = PlayerPrefs.GetInt(ResolutionPrefKey, currentResolutionIndex);
+
+        // 3) Apply it to the dropdown UI…
+        resolutionDropdown.value = savedIndex;
         resolutionDropdown.RefreshShownValue();
+
+        // 4) …and immediately apply the game window to that resolution
+        SetResolution(savedIndex);
+
+        // 5) Finally, wire up future changes so we both save + apply
+        resolutionDropdown.onValueChanged.AddListener(SetResolution);
     }
 
 
@@ -69,7 +78,12 @@ public class MenuController : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 
+        // persist it!
+        PlayerPrefs.SetInt(ResolutionPrefKey, resolutionIndex);
+        PlayerPrefs.Save();
     }
+
+
     public void OnStartGamePressed()
     {
         string playerName = playerNameInput.text; // Get the player's name
