@@ -11,8 +11,8 @@ public class JigsawUIManager : MonoBehaviour
     public TMP_Text livesText;       
 
     [Header("Puzzle Settings")]
-    public float puzzleDuration = 30f;  
-    public int rewardPoints    = 10;     // points for success
+    public float puzzleDuration ;  
+    public int rewardPoints ;     // points for success
     public string gameSceneName = "NewGame";
 
     float timeLeft;
@@ -27,7 +27,7 @@ public class JigsawUIManager : MonoBehaviour
         puzzleScoreText.text = "Score: " + baseScore;
 
         baseLives = PlayerPrefs.GetInt("SavedHealth", 
-                      FindObjectOfType<healthBar>()?.spaceShips.Length ?? 5);
+        FindObjectOfType<healthBar>()?.spaceShips.Length ?? 5);
         livesText.text = "Lives: " + baseLives;
     }
 
@@ -43,23 +43,31 @@ public class JigsawUIManager : MonoBehaviour
     /// <summary>
     /// Call this when the puzzle is solved (true) or failed (false).
     /// </summary>
-    public void EndPuzzle(bool success)
-    {
-        enabled = false;
+public void EndPuzzle(bool success)
+{
+    enabled = false;
 
-        // 1) Score: add points on success, leave unchanged on failure
-        int finalScore = baseScore + (success ? rewardPoints : 0);
+    // 1) Score: add points on success, leave unchanged on failure
+   
 
-        // 2) Lives: lose one life on failure, keep same on success
-        int finalLives = baseLives + (success ? 0 : -1);
-        finalLives = Mathf.Max(0, finalLives);
+    // 2) Lives: lose one life on failure, keep same on success
+    int finalLives = baseLives + (success ? 0 : -1);
+    finalLives = Mathf.Max(0, finalLives);
 
-        // 3) Persist both
-        PlayerPrefs.SetFloat("SavedScore", finalScore);
-        PlayerPrefs.SetInt("SavedHealth", finalLives);
-        PlayerPrefs.Save();
+    // 3) Persist score + lives
 
-        // 4) Back to main game
-        SceneManager.LoadScene(gameSceneName);
-    }
+    PlayerPrefs.SetInt  ("SavedHealth", finalLives);
+
+    // 4) --- NEW: bump the puzzle multiplier on success ---
+    float m = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
+    if (success)
+        m += 0.5f;
+    PlayerPrefs.SetFloat("SavedMultiplier", m);
+
+    PlayerPrefs.Save();
+
+    // 5) Back to main game
+    SceneManager.LoadScene(gameSceneName);
+}
+
 }

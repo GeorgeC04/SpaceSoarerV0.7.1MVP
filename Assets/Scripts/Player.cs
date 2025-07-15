@@ -136,6 +136,12 @@ public class Player : MonoBehaviour
             // Destroy the correct answer rock
             audioSource.PlayOneShot(correctAnswerSound);
             Destroy(collision.gameObject);
+            float m = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
+            m += 0.5f;
+            PlayerPrefs.SetFloat("SavedMultiplier", m);
+            PlayerPrefs.Save();
+          
+            
             
             
 
@@ -143,12 +149,14 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("PowerUp"))
         {
-            //DisplayPuzzleText();
-            // Example code to generate a puzzle
-            //GeneratePuzzle();
-            //  coroutine to hide the puzzle text after a delay
-            //StartCoroutine(HidePuzzleTextAfterDelay(puzzleDisplayDuration));
-            //audioSource.PlayOneShot(correctAnswerSound);
+            float mult = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
+            mult += 0.1f;
+            PlayerPrefs.SetFloat("SavedMultiplier", mult);
+            PlayerPrefs.Save();
+            Debug.Log($"[PowerUp] New multiplier: {mult}");
+
+            // 2) destroy the orb
+            Destroy(collision.gameObject);
         }
 
         if(collision.gameObject.CompareTag("Asteroid"))

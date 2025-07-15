@@ -11,8 +11,8 @@ public class SlidingPuzzleUIManager : MonoBehaviour
     public TMP_Text livesText;       
 
     [Header("Puzzle Settings")]
-    public float puzzleDuration = 60f;  
-    public int rewardPoints    = 10;     // points for success
+    public float puzzleDuration ;  
+    public int rewardPoints  ;     // points for success
     public string gameSceneName = "NewGame";
 
     float timeLeft;
@@ -27,7 +27,7 @@ public class SlidingPuzzleUIManager : MonoBehaviour
         puzzleScoreText.text = "Score: " + baseScore;
 
         baseLives = PlayerPrefs.GetInt("SavedHealth", 
-                      FindObjectOfType<healthBar>()?.spaceShips.Length ?? 5);
+        FindObjectOfType<healthBar>()?.spaceShips.Length ?? 5);
         livesText.text = "Lives: " + baseLives;
     }
 
@@ -47,19 +47,26 @@ public class SlidingPuzzleUIManager : MonoBehaviour
     {
         enabled = false;
 
-        // 1) Score: add points on success, leave unchanged on failure
-        int finalScore = baseScore + (success ? rewardPoints : 0);
+
 
         // 2) Lives: lose one life on failure, keep same on success
         int finalLives = baseLives + (success ? 0 : -1);
         finalLives = Mathf.Max(0, finalLives);
 
-        // 3) Persist both
-        PlayerPrefs.SetFloat("SavedScore", finalScore);
-        PlayerPrefs.SetInt("SavedHealth", finalLives);
+        // 3) Persist score + lives
+        
+        PlayerPrefs.SetInt  ("SavedHealth", finalLives);
+
+        // 4) --- NEW: bump the puzzle multiplier on success ---
+        float m = PlayerPrefs.GetFloat("SavedMultiplier");
+        if (success)
+            m += 0.5f;
+        PlayerPrefs.SetFloat("SavedMultiplier", m);
+
         PlayerPrefs.Save();
 
-        // 4) Back to main game
+        // 5) Back to main game
         SceneManager.LoadScene(gameSceneName);
     }
+
 }

@@ -78,6 +78,7 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.DeleteKey("SavedScore");
         PlayerPrefs.DeleteKey("SavedHealth");
+        PlayerPrefs.SetFloat("SavedMultiplier", 1f);
 
         PlayerPrefs.Save();
         // Set the current difficulty from GameSettings

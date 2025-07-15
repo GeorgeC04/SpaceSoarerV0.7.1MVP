@@ -44,13 +44,19 @@ public class healthBar : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            // Show game over text
             gameOverTxt.text = "GAME OVER!!";
+
+            // Let ScoreCounter handle final save and scene load
             var scoreCounter = FindObjectOfType<ScoreCounter>();
             if (scoreCounter != null)
-                scoreCounter.SaveHighScore(scoreCounter.score,
-                    PlayerPrefs.GetString("PlayerName", "Unknown"));
-
-            SceneManager.LoadScene("MainMenu");
+            {
+                scoreCounter.EndGame();
+            }
+            else
+            {
+                Debug.LogError("No ScoreCounter found in scene!");
+            }
         }
         else
         {
