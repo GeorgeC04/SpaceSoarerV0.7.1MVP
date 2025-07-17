@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Codice.CM.WorkspaceServer.Tree;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,8 +24,9 @@ public class ScoreCounter : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip levelUpSound;
 
-    public int levelUpEvery = 20; // Every 100 points
-    private int nextLevelUpScore = 20;
+    public int levelUpEvery = 50; // Every 100 points
+    private int nextLevelUpScore = 50;
+    private int level = 1; 
 
     private bool isShowingLevelUp = false;
 
@@ -64,11 +66,11 @@ public class ScoreCounter : MonoBehaviour
 
         // Update the score text
         int intScore = Mathf.FloorToInt(score);
-        scoreText.text =  intScore.ToString();
+        scoreText.text =  "SCORE: " + (intScore * multiplier).ToString();
 
         float mult = PlayerPrefs.GetFloat("SavedMultiplier");
 
-        multiplierText.text = $"x{mult:0.0}";
+        multiplierText.text = "MULTIPLIER: " +  $"x{mult:0.0}";
         Debug.Log($"Multiplier = {mult}");
         
         int intervals = Mathf.FloorToInt(score / puzzleInterval);
@@ -133,9 +135,10 @@ public class ScoreCounter : MonoBehaviour
 
         PlayerPrefs.Save();
     }
-    
+
     private IEnumerator ShowLevelUp()
     {
+        levelUpText.text = "LEVEL " + level;
         isShowingLevelUp = true;
         levelUpText.gameObject.SetActive(true);
 
@@ -197,6 +200,7 @@ public class ScoreCounter : MonoBehaviour
 
         levelUpText.gameObject.SetActive(false);
         isShowingLevelUp = false;
+        level += 1;
     }
 
 
