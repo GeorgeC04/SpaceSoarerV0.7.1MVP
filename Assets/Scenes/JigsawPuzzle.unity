@@ -1002,6 +1002,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &946042587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 946042589}
+  - component: {fileID: 946042588}
+  m_Layer: 0
+  m_Name: AudioBootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &946042588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946042587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c60211fb80099489c54f8e78cbbda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: fcdaa031237e03146b51e7c80431c7e6, type: 2}
+  exposedParameter: MasterVolume
+--- !u!4 &946042589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946042587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 639.54755, y: 136.16638, z: -9.397063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1282952841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,14 +1211,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bdb9dcca31f0844a941129db3728d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 2
+  difficulty: 3
   gameHolder: {fileID: 1526608264}
   piecePrefab: {fileID: 117398835578657652, guid: 7cc3887e481d12249a0711e1528f95b3, type: 3}
   imageTextures:
   - {fileID: 2800000, guid: b2c69f4eb82ad2345a5ecc5ab3549b8c, type: 3}
   - {fileID: 2800000, guid: 9376ad3cb70223345adfc66021bec97a, type: 3}
   - {fileID: 2800000, guid: a10eaef511ce3c344b37f5d50caf9d2d, type: 3}
+  - {fileID: 2800000, guid: 0d9241e31e704eb49b18d2251435b785, type: 3}
+  - {fileID: 2800000, guid: d3cde1729cef79a49b242ad94d647e6f, type: 3}
+  - {fileID: 2800000, guid: a7c473665493143489d42895677cc461, type: 3}
+  - {fileID: 2800000, guid: 3d64c4622b5472843b311dfcaa158c2b, type: 3}
+  - {fileID: 2800000, guid: ff9a41f0514415d448ad0bcdac3d1174, type: 3}
+  - {fileID: 2800000, guid: 7418ab942ba0ee74395d9e3e1f57c44e, type: 3}
+  - {fileID: 2800000, guid: fa5f4a9a3a7fd874dab1e67700c91975, type: 3}
+  - {fileID: 2800000, guid: 260394039a7694e4d96a705b67a9caf3, type: 3}
+  - {fileID: 2800000, guid: 23ca744806298fe4d876b12cf528fa73, type: 3}
+  - {fileID: 2800000, guid: d2bc4f545dd0b524f878da9b84d15eee, type: 3}
+  - {fileID: 2800000, guid: 300ae5d6d775aac4797c9ffc5bdde9cb, type: 3}
   - {fileID: 2800000, guid: e95f4ea45a0cb2a43ab95acfab3863e5, type: 3}
+  - {fileID: 2800000, guid: b2c69f4eb82ad2345a5ecc5ab3549b8c, type: 3}
   levelSelectPanel: {fileID: 279905870}
   levelSelectPrefab: {fileID: 2590576833626020806, guid: 780cbd380a5faf84698dc2dfc40adda6, type: 3}
   playAgainButton: {fileID: 1282952841}
@@ -1352,7 +1410,7 @@ MonoBehaviour:
   timerText: {fileID: 261235599}
   puzzleScoreText: {fileID: 460106118}
   livesText: {fileID: 483543338}
-  puzzleDuration: 30
+  puzzleDuration: 45
   rewardPoints: 10
   gameSceneName: NewGame
 --- !u!4 &1452250452

@@ -153,9 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbPrefab: {fileID: 442435878}
-  spawnInterval: 80
-  minX: -50
-  maxX: 100
+  spawnInterval: 120
+  minX: -120
+  maxX: 0
   spawnY: 100
 --- !u!4 &35917022
 Transform:
@@ -2730,11 +2730,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1025b8835fa484caef4b8f807a9ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rockPrefab:
+  easyRockPrefabs:
   - {fileID: 1167268338}
   - {fileID: 1817746242}
   - {fileID: 1906226491}
   - {fileID: 387989230}
+  hardRockPrefabs:
+  - {fileID: 801453763}
+  - {fileID: 868528434}
+  - {fileID: 1150310759}
+  - {fileID: 1892662313}
   plane: {fileID: 1738152953}
   currentScore: {fileID: 530604369}
   spawnInterval: 0.5

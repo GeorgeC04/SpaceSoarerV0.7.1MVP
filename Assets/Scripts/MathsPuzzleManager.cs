@@ -188,7 +188,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
                     case 1: 
                         correctAnswer = num1 * num2;
-                        puzzleText.text = $"{num1} � {num2} = ?";
+                        puzzleText.text = $"{num1} x {num2} = ?";
                         break;
 
                     case 2:
