@@ -293,7 +293,6 @@ public class ColourPattern : MonoBehaviour
         // Move the spawned rocks from right to left
         foreach (GameObject rock in spawnedRocks)
         {
-            Debug.Log("We hopefull get it moving at some point?");
             if (rock != null)
             {
                 rock.transform.Translate(Vector3.left * (randRockSpawn.rockSpeed * 0.8f) * Time.deltaTime);
@@ -566,11 +565,11 @@ public class ColourPattern : MonoBehaviour
         spawnedRocks.Remove(rock);
 
         Debug.Log("Spawned rocks count " + spawnedRocks.Count);
+        
 
         // If all rocks are destroyed, hide the puzzle text
-        if ((currentDifficulty == Difficulty.Easy && spawnedRocks.Count == 7) || (currentDifficulty == Difficulty.Hard && spawnedRocks.Count == 8))
+        if ((currentDifficulty == Difficulty.Easy && spawnedRocks.Count == 6) || (currentDifficulty == Difficulty.Hard && spawnedRocks.Count == 8))
         {
-            Debug.Log("YES THIS IS HAPPENING");
             HidePuzzleText();
             random.GetComponent<RandomRockSpawner>().begin();
             Debug.Log("Yep getting here too");

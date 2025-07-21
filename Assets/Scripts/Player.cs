@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     public AudioClip correctAnswerSound;
     public AudioClip hoverSound;
 
+    public Difficulty difficultySetting = Difficulty.Easy;
+
     private AudioSource audioSource;
 
 
@@ -136,11 +138,24 @@ public class Player : MonoBehaviour
             // Destroy the correct answer rock
             audioSource.PlayOneShot(correctAnswerSound);
             Destroy(collision.gameObject);
+            
+
             float m = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
-            m += 0.5f;
+
+            difficultySetting = GameSettings.SelectedDifficulty;
+            
+            if (difficultySetting == Difficulty.Easy)
+            {
+                m += 0.5f;
+            }
+            else
+            {
+                m += 1.0f;
+
+            }
+
             PlayerPrefs.SetFloat("SavedMultiplier", m);
             PlayerPrefs.Save();
-          
             
             
             

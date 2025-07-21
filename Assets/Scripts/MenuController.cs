@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
+using System.Text.RegularExpressions;
 public class MenuController : MonoBehaviour
 {
 
@@ -86,7 +88,29 @@ public class MenuController : MonoBehaviour
 
     public void OnStartGamePressed()
     {
-        string playerName = playerNameInput.text; // Get the player's name
+
+
+        string playerName;
+
+        //Checks the user has input a name, otherwise provides a generic name instead of failure
+        try
+        {
+
+            playerName = playerNameInput.text; // Get the player's name
+            //Checks the name is only a letter or number, to prevent code injection
+            if (!IsValidPlayerName(playerName))
+            {
+                playerName = "User";
+
+            }
+            
+        }
+        catch (Exception)
+        {
+            playerName = "User";
+        }
+
+
 
         // Save the player's name if necessary
         PlayerPrefs.SetString("PlayerName", playerName);
@@ -102,6 +126,13 @@ public class MenuController : MonoBehaviour
         Debug.Log("Player's Name: " + PlayerPrefs.GetString("PlayerName"));
 
 
+    }
+
+    //Basic function designed to check user input values are only letter or numbers, preventing code injection
+    public static bool IsValidPlayerName(string playerName)
+    {
+        // Returns true only if playerName contains only letters and numbers
+        return Regex.IsMatch(playerName, @"^[a-zA-Z0-9]+$");
     }
 
 

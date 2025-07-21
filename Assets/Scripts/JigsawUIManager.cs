@@ -8,7 +8,9 @@ public class JigsawUIManager : MonoBehaviour
     [Header("UI References")]
     public TMP_Text timerText;       
     public TMP_Text puzzleScoreText; 
-    public TMP_Text livesText;       
+    public TMP_Text livesText;
+
+    public Difficulty difficulty = Difficulty.Easy;    
 
     [Header("Puzzle Settings")]
     public float puzzleDuration ;  
@@ -18,6 +20,7 @@ public class JigsawUIManager : MonoBehaviour
     float timeLeft;
     int baseScore;
     int baseLives;
+    
 
     void Start()
     {
@@ -60,8 +63,19 @@ public void EndPuzzle(bool success)
 
     // 4) --- NEW: bump the puzzle multiplier on success ---
     float m = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
-    if (success)
-        m += 0.5f;
+        if (success)
+        {
+            difficulty = GameSettings.SelectedDifficulty;
+            if (difficulty == Difficulty.Easy)
+            {
+                m += 0.5f;
+            }
+            else
+            {
+                m += 1.0f;
+            }
+        }
+        
     PlayerPrefs.SetFloat("SavedMultiplier", m);
 
     PlayerPrefs.Save();

@@ -415,6 +415,9 @@ public class MathsPuzzleManager : MonoBehaviour
 
         Debug.Log("Spawned rocks count " + spawnedRocks.Count);
 
+        
+
+
         // If all rocks are destroyed, hide the puzzle text
         if (spawnedRocks.Count == 1)
         {

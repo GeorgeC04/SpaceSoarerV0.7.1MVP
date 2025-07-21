@@ -11,9 +11,11 @@ public class SlidingPuzzleUIManager : MonoBehaviour
     public TMP_Text livesText;       
 
     [Header("Puzzle Settings")]
-    public float puzzleDuration ;  
+    public float puzzleDuration;  
     public int rewardPoints  ;     // points for success
     public string gameSceneName = "NewGame";
+
+    public Difficulty difficulty = Difficulty.Easy;
 
     float timeLeft;
     int baseScore;
@@ -60,7 +62,18 @@ public class SlidingPuzzleUIManager : MonoBehaviour
         // 4) --- NEW: bump the puzzle multiplier on success ---
         float m = PlayerPrefs.GetFloat("SavedMultiplier");
         if (success)
-            m += 0.5f;
+        {
+            difficulty = GameSettings.SelectedDifficulty;
+            if (difficulty == Difficulty.Easy)
+            {
+                m += 0.5f;
+            }
+            else
+            {
+                m += 1.0f;
+            }
+        }
+            
         PlayerPrefs.SetFloat("SavedMultiplier", m);
 
         PlayerPrefs.Save();

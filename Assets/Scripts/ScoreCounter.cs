@@ -54,7 +54,6 @@ public class ScoreCounter : MonoBehaviour
             score = 0f;
         }
         multiplier = PlayerPrefs.GetFloat("SavedMultiplier");
-        Debug.Log($"Multiplier = {multiplier}");
         puzzlesTriggered = Mathf.FloorToInt(score / puzzleInterval);
         
     }
@@ -71,7 +70,6 @@ public class ScoreCounter : MonoBehaviour
         float mult = PlayerPrefs.GetFloat("SavedMultiplier");
 
         multiplierText.text = "MULTIPLIER: " +  $"x{mult:0.0}";
-        Debug.Log($"Multiplier = {mult}");
         
         int intervals = Mathf.FloorToInt(score / puzzleInterval);
 
