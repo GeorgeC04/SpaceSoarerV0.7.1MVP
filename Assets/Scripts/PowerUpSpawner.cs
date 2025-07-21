@@ -10,7 +10,7 @@ public class PowerUpSpawner : MonoBehaviour
     public float minX , maxX ;  // world-space X range
     public float spawnY ;            // world-space Y above top of screen
 
-    private float _timer ;
+    private float _timer;
 
     void Update()
     {
@@ -18,7 +18,7 @@ public class PowerUpSpawner : MonoBehaviour
         if (_timer >= spawnInterval)
         {
             _timer = 0f;
-            SpawnOrb();
+            //SpawnOrb();
         }
     }
 

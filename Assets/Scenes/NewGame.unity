@@ -4545,6 +4545,7 @@ MonoBehaviour:
   collisionSound: {fileID: 8300000, guid: 01886ee825eb9b04ea50efb07873f0fd, type: 3}
   correctAnswerSound: {fileID: 8300000, guid: e72c2668dd851eb4aa817e99747ef039, type: 3}
   hoverSound: {fileID: 8300000, guid: fe589f623c997944db3e616d3a95e1eb, type: 3}
+  PowerUpSound: {fileID: 8300000, guid: e72c2668dd851eb4aa817e99747ef039, type: 3}
 --- !u!50 &1308077864
 Rigidbody2D:
   serializedVersion: 4

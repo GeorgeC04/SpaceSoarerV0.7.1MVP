@@ -65,7 +65,8 @@ public class ScoreCounter : MonoBehaviour
 
         // Update the score text
         int intScore = Mathf.FloorToInt(score);
-        scoreText.text =  "SCORE: " + (intScore * multiplier).ToString();
+       scoreText.text = "SCORE: " + Mathf.Round(intScore * multiplier).ToString();
+
 
         float mult = PlayerPrefs.GetFloat("SavedMultiplier");
 

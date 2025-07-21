@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     public AudioClip collisionSound;
     public AudioClip correctAnswerSound;
     public AudioClip hoverSound;
+    public AudioClip PowerUpSound;
 
     public Difficulty difficultySetting = Difficulty.Easy;
 
@@ -164,11 +165,13 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("PowerUp"))
         {
+            audioSource.PlayOneShot(PowerUpSound);
             float mult = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
             mult += 0.1f;
             PlayerPrefs.SetFloat("SavedMultiplier", mult);
             PlayerPrefs.Save();
             Debug.Log($"[PowerUp] New multiplier: {mult}");
+            
 
             // 2) destroy the orb
             Destroy(collision.gameObject);
