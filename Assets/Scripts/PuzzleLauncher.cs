@@ -6,6 +6,8 @@ public class PuzzleLauncher : MonoBehaviour
     public ScoreCounter scoreCounter;
     public healthBar    healthBar;    // assign in Inspector
 
+    public ScoreCounter level;
+
     [Tooltip("List of puzzle scene names you want to randomly choose between")]
     public string[] puzzleSceneNames = new[] { "JigsawPuzzle", "SampleScene" };
 
@@ -16,6 +18,9 @@ public class PuzzleLauncher : MonoBehaviour
             PlayerPrefs.SetFloat("SavedScore", scoreCounter.score);
         if (healthBar != null)
             PlayerPrefs.SetInt("SavedHealth", healthBar.CurrentHealth);
+        PlayerPrefs.Save();
+        if (level != null)
+            PlayerPrefs.SetInt("SavedLevel", scoreCounter.level);
         PlayerPrefs.Save();
 
         // 2) Pick a random scene from the list

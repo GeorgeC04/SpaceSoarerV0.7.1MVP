@@ -213,7 +213,8 @@ public class MenuController : MonoBehaviour
     public void Reset()
     {
         PlayerPrefs.DeleteAll();
-    }
+        SceneManager.LoadScene("MainMenu");
+;    }
 
 
 }

@@ -18,7 +18,7 @@ public class PowerUpSpawner : MonoBehaviour
         if (_timer >= spawnInterval)
         {
             _timer = 0f;
-            //SpawnOrb();
+            SpawnOrb();
         }
     }
 

@@ -154,8 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbPrefab: {fileID: 442435878}
   spawnInterval: 120
-  minX: -120
-  maxX: 0
+  minX: -50
+  maxX: 50
   spawnY: 100
 --- !u!4 &35917022
 Transform:
@@ -2598,13 +2598,14 @@ MonoBehaviour:
   multiplierText: {fileID: 223494203}
   score: 0
   scoreSpeed: 1
-  puzzleInterval: 100
+  puzzleInterval: 75
   puzzleLauncher: {fileID: 1326098515}
   levelUpText: {fileID: 129437886}
   levelUpCanvas: {fileID: 129437885}
   audioSource: {fileID: 1308077869}
   levelUpSound: {fileID: 8300000, guid: dffb1283c3e8e1c41b902ca348bbac9c, type: 3}
   levelUpEvery: 50
+  level: 1
 --- !u!82 &530604370
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4546,6 +4547,7 @@ MonoBehaviour:
   correctAnswerSound: {fileID: 8300000, guid: e72c2668dd851eb4aa817e99747ef039, type: 3}
   hoverSound: {fileID: 8300000, guid: fe589f623c997944db3e616d3a95e1eb, type: 3}
   PowerUpSound: {fileID: 8300000, guid: e72c2668dd851eb4aa817e99747ef039, type: 3}
+  difficultySetting: 0
 --- !u!50 &1308077864
 Rigidbody2D:
   serializedVersion: 4
@@ -4831,6 +4833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreCounter: {fileID: 530604369}
   healthBar: {fileID: 1889746721}
+  level: {fileID: 530604369}
   puzzleSceneNames:
   - SlidingPuzzle
   - JigsawPuzzle
@@ -7080,6 +7083,7 @@ MonoBehaviour:
   - {fileID: 1408015880}
   - {fileID: 1655522887}
   - {fileID: 650535511}
+  gameOverTxt: {fileID: 1624122375}
 --- !u!114 &1889746722
 MonoBehaviour:
   m_ObjectHideFlags: 0

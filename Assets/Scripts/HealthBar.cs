@@ -14,25 +14,48 @@ public class healthBar : MonoBehaviour
     // Expose so PuzzleLauncher can read it
     public int CurrentHealth => currentHealth;
 
-    void Awake()
-    {
-        // Don’t carry over a paused state
-        Time.timeScale = 1f;
+    public TMP_Text gameOverTxt;
 
-        // 1) If there’s a saved health value, restore and clear it
-        if (PlayerPrefs.HasKey("SavedHealth"))
+void Awake()
+{
+    // Don’t carry over a paused state
+    Time.timeScale = 1f;
+
+    // 1) If there’s a saved health value, restore and clear it
+    if (PlayerPrefs.HasKey("SavedHealth"))
+    {
+        currentHealth = PlayerPrefs.GetInt("SavedHealth");
+        PlayerPrefs.DeleteKey("SavedHealth");
+    }
+    else
+    {
+        // 2) Otherwise this is a brand-new run: start at full health
+        currentHealth = spaceShips.Length;
+    }
+
+    RefreshDisplay();
+
+    // 3) If already at 0, trigger game over immediately
+    if (currentHealth <= 0)
+    {
+        Debug.Log("Health is already zero on scene load — triggering Game Over.");
+
+        gameOverTxt.text = "GAME OVER!!";        
+
+        var scoreCounter = FindObjectOfType<ScoreCounter>();
+        if (scoreCounter != null)
         {
-            currentHealth = PlayerPrefs.GetInt("SavedHealth");
-            PlayerPrefs.DeleteKey("SavedHealth");
+            float savedScore = PlayerPrefs.GetFloat("SavedScore", 0f);
+            float multiplier = PlayerPrefs.GetFloat("SavedMultiplier", 1f);
+            string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
+            scoreCounter.EndGamePuzzle(savedScore,multiplier,playerName);
         }
         else
         {
-            // 2) Otherwise this is a brand-new run: start at full health
-            currentHealth = spaceShips.Length;
+            Debug.LogError("No ScoreCounter found in scene to trigger Game Over!");
         }
-
-        RefreshDisplay();
     }
+}
 
     /// <summary>
     /// Call to lose one health—and if zero, ends the game.

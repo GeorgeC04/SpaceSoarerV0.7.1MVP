@@ -51,3 +51,6 @@ TagManager:
   - name: Pieces
     uniqueID: 642561257
     locked: 0
+  - name: Asteriod
+    uniqueID: 1546441507
+    locked: 0

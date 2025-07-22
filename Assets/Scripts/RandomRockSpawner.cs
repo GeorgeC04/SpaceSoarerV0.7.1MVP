@@ -216,7 +216,7 @@ public class RandomRockSpawner : MonoBehaviour
         SpriteRenderer sr = asteroid.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            sr.sortingOrder = Random.Range(-3, 3);
+            sr.sortingOrder = Random.Range(-3, -1);
         }
 
         asteroid.tag = "Asteroid";

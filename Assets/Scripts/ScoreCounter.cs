@@ -26,7 +26,7 @@ public class ScoreCounter : MonoBehaviour
 
     public int levelUpEvery = 50; // Every 100 points
     private int nextLevelUpScore = 50;
-    private int level = 1; 
+    public int level = 1; 
 
     private bool isShowingLevelUp = false;
 
@@ -54,6 +54,15 @@ public class ScoreCounter : MonoBehaviour
             score = 0f;
         }
         multiplier = PlayerPrefs.GetFloat("SavedMultiplier");
+        if (PlayerPrefs.HasKey("SavedLevel"))
+        {
+            level = PlayerPrefs.GetInt("SavedLevel");
+            PlayerPrefs.DeleteKey("SavedLevel");
+        }
+        else
+        {
+            level = 2;
+        }
         puzzlesTriggered = Mathf.FloorToInt(score / puzzleInterval);
         
     }
@@ -105,6 +114,15 @@ public class ScoreCounter : MonoBehaviour
     {
         // Check if the current score is a high score and update the top 5 list
         float finalScore = score * PlayerPrefs.GetFloat("SavedMultiplier");
+        SaveHighScore(finalScore, playerName);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+
+    }
+    public void EndGamePuzzle(float score, float multiplier, string playerName)
+    {
+        // Check if the current score is a high score and update the top 5 list
+        float finalScore = score * multiplier;
         SaveHighScore(finalScore, playerName);
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
@@ -199,7 +217,10 @@ public class ScoreCounter : MonoBehaviour
 
         levelUpText.gameObject.SetActive(false);
         isShowingLevelUp = false;
-        level += 1;
+        level++;
+        
+        PlayerPrefs.SetInt("SavedLevel", level);
+        PlayerPrefs.Save();
     }
 
 
