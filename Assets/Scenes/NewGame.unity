@@ -2606,6 +2606,8 @@ MonoBehaviour:
   levelUpSound: {fileID: 8300000, guid: dffb1283c3e8e1c41b902ca348bbac9c, type: 3}
   levelUpEvery: 50
   level: 1
+  currentDifficulty: 0
+  randRockSpawn: {fileID: 631427561}
 --- !u!82 &530604370
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3427,6 +3429,7 @@ MonoBehaviour:
   spawnDistance: 10
   puzzleText: {fileID: 370301179}
   rockText: {fileID: 370301179}
+  isShowingText: 0
   rockPrefab: {fileID: 0}
   numberOfRocks: 10
   spacing: 2
@@ -6298,6 +6301,7 @@ MonoBehaviour:
   spawnDistance: 10
   puzzleText: {fileID: 1731394407}
   rockText: {fileID: 370301179}
+  isShowingText: 0
   rockPrefab: {fileID: 1752979189}
   numberOfRocks: 5
   spacing: 80

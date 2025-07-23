@@ -23,6 +23,8 @@ public class MathsPuzzleManager : MonoBehaviour
     public TextMeshProUGUI puzzleText;
     public TextMeshProUGUI rockText;
 
+
+    public bool isShowingText = false;
     public GameObject rockPrefab;
     public int numberOfRocks = 10; // Number of rocks to spawn
     public float spacing = 2f;    // Space between each rock
@@ -33,7 +35,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
     private int correctAnswer;
     private string correctWordAnswer;
- 
+
     //private bool questionDisplayed = false;
     //private bool rocksSpawned = false;
     private List<GameObject> spawnedRocks = new List<GameObject>();
@@ -67,7 +69,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
 
 
-    
+
 
 
     public void beginPuzzle()
@@ -115,17 +117,17 @@ public class MathsPuzzleManager : MonoBehaviour
             SpawnRocks();
             frameCounter = 0; // Reset the frame counter
         }*/
-        
+
         if (currentScore == null || random == null)
         {
             return;
         }
-        
+
 
 
         int thisScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
 
-        if(thisScore % 7 == 0)
+        if (thisScore % 7 == 0)
         {
             if (currentDifficulty == Difficulty.Easy)
             {
@@ -134,10 +136,10 @@ public class MathsPuzzleManager : MonoBehaviour
             else
             {
                 randRockSpawn.rockSpeed += 0.10f;
-                randRockSpawn.spawnInterval -= 0.0001f;
+                randRockSpawn.spawnInterval += 0.0002f;
             }
-           
-            
+
+
         }
 
         // Move the spawned rocks from right to left
@@ -145,7 +147,7 @@ public class MathsPuzzleManager : MonoBehaviour
         {
             if (rock != null)
             {
-                rock.transform.Translate(Vector3.left * (randRockSpawn.rockSpeed *0.8f) * Time.deltaTime);
+                rock.transform.Translate(Vector3.left * (randRockSpawn.rockSpeed * 0.8f) * Time.deltaTime);
             }
         }
     }
@@ -161,6 +163,7 @@ public class MathsPuzzleManager : MonoBehaviour
                 int num2 = Random.Range(1, 20);
                 correctAnswer = num1 + num2;
                 puzzleText.text = $"{num1} + {num2} = ?";
+                StartCoroutine(ShowPuzzleTextAnimatedNotColoured());
                 puzzleText.gameObject.SetActive(true);
             }
             else
@@ -186,7 +189,7 @@ public class MathsPuzzleManager : MonoBehaviour
                         puzzleText.text = $"{num1} - {num2} = ?";
                         break;
 
-                    case 1: 
+                    case 1:
                         correctAnswer = num1 * num2;
                         puzzleText.text = $"{num1} x {num2} = ?";
                         break;
@@ -199,7 +202,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
                 }
 
-                puzzleText.gameObject.SetActive(true);
+                StartCoroutine(ShowPuzzleTextAnimatedNotColoured());
             }
             else
             {
@@ -216,14 +219,14 @@ public class MathsPuzzleManager : MonoBehaviour
             if (currentDifficulty == Difficulty.Easy)
             {
                 // Easy difficulty: Words with one blank
-            string[] words = {
+                string[] words = {
                 "SU_", "SK_", "STA_", "MOO_", "MAR_", "NOV_", "VOI_", "DUS_", "RIN_", "OR_",
                 "AUR_", "LEN_", "POL_", "FLU_", "SPI_", "LUN_", "URS_", "TAI_", "AXI_", "SO_",
                 "BEL_", "HAL_", "DAW_", "DUS_", "HAZ_", "BEA_", "COR_", "SPO_", "ZON_", "PLA_",
                 "LE_", "IO_", "RA_", "GA_", "COM_", "EO_", "RIF_", "ZOO_", "WAR_", "NAS_"
             };
 
-            string[] correctLetters = {
+                string[] correctLetters = {
                 "N","Y","R","N","S","A","D","T","G","B",
                 "A","S","E","X","N","A","A","L","S","L",
                 "T","O","N","K","E","M","E","T","E","N",
@@ -289,7 +292,7 @@ public class MathsPuzzleManager : MonoBehaviour
                 correctWordAnswer = correctLetterPairs[index]; // Store the two-letter answer
             }
 
-            puzzleText.gameObject.SetActive(true); // Show the puzzle text
+            StartCoroutine(ShowPuzzleTextAnimatedNotColoured()); // Show the puzzle text
         }
         else
         {
@@ -329,7 +332,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
         for (int i = 0; i < numberOfRocks; i++)
         {
-            Vector3 spawnPosition = spawnPoint.position + new Vector3(0, i * spacing, 0);
+            Vector3 spawnPosition = spawnPoint.position + new Vector3(400, i * spacing, 0);
             GameObject spawnedRock = Instantiate(rockPrefab, spawnPosition, Quaternion.identity, spawnStart);
             spawnedRock.SetActive(true);
             spawnedRocks.Add(spawnedRock);
@@ -415,7 +418,7 @@ public class MathsPuzzleManager : MonoBehaviour
 
         Debug.Log("Spawned rocks count " + spawnedRocks.Count);
 
-        
+
 
 
         // If all rocks are destroyed, hide the puzzle text
@@ -428,4 +431,134 @@ public class MathsPuzzleManager : MonoBehaviour
             this.enabled = false;
         }
     }
+    
+
+    private IEnumerator ShowPuzzleTextAnimated()
+{
+    isShowingText = true;
+    puzzleText.gameObject.SetActive(true);
+
+    RectTransform rect = puzzleText.GetComponent<RectTransform>();
+
+    // Set fixed start position here, so it resets every time
+    Vector2 fixedStartPos = new Vector2(-12.7959f, 1f);
+    rect.anchoredPosition = fixedStartPos;
+
+    Vector2 midPos = fixedStartPos;
+    Vector2 startPos = midPos + new Vector2(0f, -30f);
+    Vector2 endPos = midPos + new Vector2(0f, -30f);
+
+    // Immediately move to startPos (30 units below fixed start)
+    rect.anchoredPosition = startPos;
+
+    float duration = 0.5f;
+    float pauseTime = 1.5f;
+    float fadeOutDuration = 0.5f;
+
+    CanvasGroup puzzleCanvas = puzzleText.GetComponent<CanvasGroup>();
+    if (puzzleCanvas == null) puzzleCanvas = puzzleText.gameObject.AddComponent<CanvasGroup>();
+    puzzleCanvas.alpha = 0f;
+
+    float flashSpeed = 4f;
+
+    // Fade in + move up
+    float t = 0f;
+    while (t < duration)
+    {
+        t += Time.deltaTime;
+        float progress = t / duration;
+        rect.anchoredPosition = Vector2.Lerp(startPos, midPos, progress);
+        puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+        yield return null;
+    }
+
+    // Pause
+    float pauseTimer = 0f;
+    while (pauseTimer < pauseTime)
+    {
+        pauseTimer += Time.deltaTime;
+        puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
+        yield return null;
+    }
+
+    // Fade out + move down
+    t = 0f;
+    while (t < fadeOutDuration)
+    {
+        t += Time.deltaTime;
+        float progress = t / fadeOutDuration;
+        rect.anchoredPosition = Vector2.Lerp(midPos, endPos, progress);
+        float baseAlpha = Mathf.Lerp(1f, 0f, progress);
+        float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+        puzzleCanvas.alpha = baseAlpha * flashAlpha;
+        yield return null;
+    }
+
+    puzzleText.gameObject.SetActive(false);
+    isShowingText = false;
 }
+
+
+
+
+     private IEnumerator ShowPuzzleTextAnimatedNotColoured()
+    {
+        isShowingText = true;
+        puzzleText.gameObject.SetActive(true);
+
+        float duration = 0.5f;
+        float pauseTime = 3f;
+        float fadeOutDuration = 0.5f;
+
+        Vector3 startPos = puzzleText.transform.localPosition + new Vector3(0, -30f, 0);
+        Vector3 midPos = puzzleText.transform.localPosition;
+        Vector3 endPos = midPos + new Vector3(0, -30f, 0);
+
+        puzzleText.transform.localPosition = startPos;
+
+        CanvasGroup puzzleCanvas = puzzleText.GetComponent<CanvasGroup>();
+        puzzleCanvas.alpha = 0f;
+
+        float flashSpeed = 4f;
+
+        // Fade in + move up with flashing
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float progress = t / duration;
+            puzzleText.transform.localPosition = Vector3.Lerp(startPos, midPos, progress);
+            yield return null;
+        }
+
+        // Pause + flashing
+        float pauseTimer = 0f;
+        while (pauseTimer < pauseTime)
+        {
+            pauseTimer += Time.deltaTime;
+            puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
+            yield return null;
+        }
+
+        // Fade out + move down
+        t = 0f;
+        while (t < fadeOutDuration)
+        {
+            t += Time.deltaTime;
+            float progress = t / fadeOutDuration;
+            puzzleText.transform.localPosition = Vector3.Lerp(midPos, endPos, progress);
+            float baseAlpha = Mathf.Lerp(1f, 0f, progress);
+            float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+            puzzleCanvas.alpha = baseAlpha * flashAlpha;
+            yield return null;
+        }
+
+        puzzleText.gameObject.SetActive(false);
+        isShowingText = false;
+    }
+
+
+
+}
+
+

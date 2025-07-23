@@ -15,36 +15,32 @@ public enum Difficulty
 public class ColourPattern : MonoBehaviour
 {
 
-    public RandomRockSpawner randRockSpawn;
-    public GameObject random;
+    public RandomRockSpawner randRockSpawn; //Spawn point for rocks
+    public GameObject random; //Random spawner
     [Range(-1f, 1f)]
     public float scrollSpeed = 0.5f;
     //public float rockSpeed = 1.0f;   // Speed at which rocks move from right to left
-    private float offset;
-    private Material mat;
-    private float distanceMoved = 0f;
-    public float spawnDistance = 10f;
-    public TextMeshProUGUI puzzleText;
-    public TextMeshProUGUI rockText;
+    public float spawnDistance = 10f; // Distance between rock spawn points
+    public TextMeshProUGUI puzzleText; //Puzzle text point
+    public TextMeshProUGUI rockText; //Rock text point
 
-    public GameObject rockPrefab;
+    public GameObject rockPrefab; //Prefab / image for the rock
     public int numberOfRocks = 10; // Number of rocks to spawn
     public float spacing = 2f;    // Space between each rock
-    public Transform spawnPoint;
+    public Transform spawnPoint; //Point rocks spawn from
 
-    public TextMeshProUGUI healthBarTxt;
-    public GameObject healthBarObject;
+    public TextMeshProUGUI healthBarTxt; //Holds the health bar text "Health: "
+    public GameObject healthBarObject; //Holds the health bar info and components
 
-    private int correctAnswer;
-    private string correctWordAnswer;
+    private int correctAnswer; //Holds the correct answer
+    private string correctWordAnswer; //Holds the correct answer for the word
 
-    public CanvasGroup recreatePatternCanvas;
+    public CanvasGroup recreatePatternCanvas; //Holds the canvas for the pattern recreation puzzle
 
-    public bool isShowingText = false;
+    public bool isShowingText = false; //Boolean lets code know if it's showing 
 
-    //private bool questionDisplayed = false;
-    //private bool rocksSpawned = false;
-    private List<GameObject> spawnedRocks = new List<GameObject>();
+    
+    private List<GameObject> spawnedRocks = new List<GameObject>(); //holds a dynamic list with all the rocks on the page
 
     public Transform spawnStart;
 
@@ -55,20 +51,7 @@ public class ColourPattern : MonoBehaviour
 
 
     public ScoreCounter currentScore; //Gets the current score
-    /*
-        void Start()
-        {
-            mat = GetComponent<Renderer>().material;
-            if (puzzleText != null)
-            {
-                puzzleText.gameObject.SetActive(false); // text is initially hidden
-            }
-            else
-            {
-                Debug.LogError("PuzzleText is not assigned in the Inspector.");
-            }
-        }
-    */
+    
     private bool isMathPuzzle = true; // Starts with math puzzle
 
     public Difficulty currentDifficulty = Difficulty.Easy;
@@ -84,9 +67,6 @@ public class ColourPattern : MonoBehaviour
     {
 
         spawnedRocks.Clear();
-
-
-        Debug.Log("Yep this is being reached");
 
 
 
@@ -110,28 +90,7 @@ public class ColourPattern : MonoBehaviour
         {
             Debug.LogError("PuzzleText is not assigned in the Inspector.");
         }
-        /*
-
-        // Randomly decide between math and word puzzles
-        if (Random.value > 0.5f) // 50% chance
-        {
-            GeneratePuzzle(); // Generate a math puzzle
-        }
-        else
-        {
-            GenerateWordPuzzle(); // Generate a word puzzle
-        }
-
-        SpawnRocks();
-        frameCounter = 0;
-        */
-
-        /*
-                foreach (GameObject pref in prefabs)
-                {
-                    pref.GetComponent<Renderer>().enabled = false;
-                }
-        */
+        
 
         puzzleText.text = "Recreate the pattern!!";
         StartCoroutine(ShowPuzzleTextAnimated());
@@ -156,7 +115,7 @@ public class ColourPattern : MonoBehaviour
             randomNumbers[i] = Random.Range(0, 4); // 0 to 3 inclusive
         }
 
-        Debug.Log("Size is... " + randomNumbers.Length);
+        
 
         int xDist = 500;
 
@@ -174,15 +133,13 @@ public class ColourPattern : MonoBehaviour
             spawnedRock.tag = "PowerUp";
 
             RockDespawner rockDespawner = spawnedRock.AddComponent<RockDespawner>();
-            //rockDespawner.Initialize(this);
+            
         }
 
 
 
 
-        //Spawn the four rows of of rocks
-        //And then set the tag for the right one to be "CorrectAnswer"
-        //Then if they get it wrong they'll lose a life
+        
 
 
         int xPos = 1600;
@@ -198,26 +155,38 @@ public class ColourPattern : MonoBehaviour
         {
             sizeOfFor = 4;
         }
+        
+        int userScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
 
         for (int n = 0; n < sizeOfFor; n++)
         {
 
             int yPos = 150;
-            xPos += 450;
+            if (userScore < 300)
+            {
+                xPos += 550;
+            }
+            if (userScore < 1000 && userScore > 300)
+            {
+                xPos += 750;
+            }
+            if (userScore > 1000)
+            {
+                xPos += (int) (userScore / 1.1);
+            }
+            if (userScore > 2000)
+            {
+                xPos += (int) (userScore / 1.3);
+            }
+            if (userScore > 3000)
+            {
+                xPos += (int) (userScore / 1.6);
+            }
+                
             correctNumber = randomNumbers[n];
 
 
-            /*
-                        if (n == 3 && currentDifficulty != Difficulty.Easy)
-                        {
-                            InitialPuzzleText.text = "";
-                        }
 
-                        if (n == 2 && currentDifficulty == Difficulty.Easy)
-                        {
-                            InitialPuzzleText.text = "";
-                        }
-            */
             for (int j = 0; j < 4; j++)
             {
                 Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
@@ -284,7 +253,7 @@ public class ColourPattern : MonoBehaviour
             else
             {
                 randRockSpawn.rockSpeed += 0.10f;
-                randRockSpawn.spawnInterval += 0.0001f;
+                randRockSpawn.spawnInterval += 0.0002f;
             }
 
 

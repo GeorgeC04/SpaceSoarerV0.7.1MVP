@@ -33,9 +33,15 @@ public class ScoreCounter : MonoBehaviour
     private int lastLevelUpScore = 0;
     private float multiplier;
 
+    public Difficulty currentDifficulty = Difficulty.Easy;
+
+    public RandomRockSpawner randRockSpawn; //Spawn point for rocks
 
     void Start()
     {
+
+        currentDifficulty = GameSettings.SelectedDifficulty;
+
         // 1) Ensure the game isn't paused
         Time.timeScale = 1f;
 
@@ -89,9 +95,26 @@ public class ScoreCounter : MonoBehaviour
                 puzzlesTriggered = intervals;
 
                 if (puzzleLauncher != null)
+                {
                     puzzleLauncher.LaunchPuzzle();
+                    if (currentDifficulty == Difficulty.Easy)
+                    {
+                        randRockSpawn.rockSpeed += 0.001f;
+                    }
+                    else
+                    {
+                        randRockSpawn.rockSpeed += 0.40f;
+                        randRockSpawn.spawnInterval += 0.0005f;
+                    }
+
+                }
+
+
                 else
+                {
                     Debug.LogWarning("PuzzleLauncher not assigned on ScoreCounter!");
+                }
+                
             }
 
         // Trigger Level Up every X points
