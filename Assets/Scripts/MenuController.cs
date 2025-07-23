@@ -116,6 +116,8 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.DeleteKey("SavedScore");
         PlayerPrefs.DeleteKey("SavedHealth");
+        PlayerPrefs.DeleteKey("SavedLevel");
+        PlayerPrefs.DeleteKey("SavedRockSpeed");
         PlayerPrefs.SetFloat("SavedMultiplier", 1f);
 
         PlayerPrefs.Save();

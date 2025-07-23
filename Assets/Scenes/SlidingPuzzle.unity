@@ -988,7 +988,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: d3cde1729cef79a49b242ad94d647e6f, type: 3}
   - {fileID: 2800000, guid: 300ae5d6d775aac4797c9ffc5bdde9cb, type: 3}
   - {fileID: 2800000, guid: 5114ac253a677d948826796ebe3e190b, type: 3}
-  - {fileID: 2800000, guid: ec0555be956103f42844d07bd24227c2, type: 3}
   gameTransform: {fileID: 215531184}
   piecePrefab: {fileID: 9132147156500669844, guid: 7bed8426e1dd9d749bf0718e1258a476, type: 3}
   previewQuadPrefab: {fileID: 123049153}
@@ -1298,7 +1297,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click a tile with a space next to it and you recreate the image!
+  m_text: Click a tile with space next to it to slide them across to recreate the
+    image
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cea1ce11ebc0e964190fd8e514e9e431, type: 2}
   m_sharedMaterial: {fileID: 6685159572956445239, guid: cea1ce11ebc0e964190fd8e514e9e431, type: 2}
@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

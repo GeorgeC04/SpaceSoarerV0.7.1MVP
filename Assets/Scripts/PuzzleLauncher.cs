@@ -8,6 +8,8 @@ public class PuzzleLauncher : MonoBehaviour
 
     public ScoreCounter level;
 
+    public RandomRockSpawner speedForRandomRocks;  
+
     [Tooltip("List of puzzle scene names you want to randomly choose between")]
     public string[] puzzleSceneNames = new[] { "JigsawPuzzle", "SampleScene" };
 
@@ -22,6 +24,12 @@ public class PuzzleLauncher : MonoBehaviour
         if (level != null)
             PlayerPrefs.SetInt("SavedLevel", scoreCounter.level);
         PlayerPrefs.Save();
+
+        if (speedForRandomRocks != null)
+        {
+            PlayerPrefs.SetFloat("SavedRockSpeed", speedForRandomRocks.rockSpeed);
+            PlayerPrefs.Save();
+        }
 
         // 2) Pick a random scene from the list
         if (puzzleSceneNames == null || puzzleSceneNames.Length == 0)

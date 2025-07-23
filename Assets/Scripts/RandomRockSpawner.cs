@@ -31,6 +31,7 @@ public class RandomRockSpawner : MonoBehaviour
 
     void Start()
     {
+        rockSpeed = PlayerPrefs.GetFloat("SavedRockSpeed", rockSpeed);
         topViewPort = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.transform.position.z)).y;
         bottomViewPort = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z)).y;
         previousRockPosition = 0;
@@ -85,6 +86,8 @@ public class RandomRockSpawner : MonoBehaviour
                 spawnInterval -= 0.0001f;
             }
         }
+            PlayerPrefs.SetFloat("SavedRockSpeed", rockSpeed);
+            PlayerPrefs.Save();
 
         timer += Time.deltaTime;
         if (timer >= spawnInterval && spawnedRocks.Count < maxRocks && rockSpawnAllow)

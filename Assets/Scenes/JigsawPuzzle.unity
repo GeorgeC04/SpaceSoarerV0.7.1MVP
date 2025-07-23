@@ -1301,12 +1301,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: ff9a41f0514415d448ad0bcdac3d1174, type: 3}
   - {fileID: 2800000, guid: 7418ab942ba0ee74395d9e3e1f57c44e, type: 3}
   - {fileID: 2800000, guid: fa5f4a9a3a7fd874dab1e67700c91975, type: 3}
-  - {fileID: 2800000, guid: 260394039a7694e4d96a705b67a9caf3, type: 3}
   - {fileID: 2800000, guid: 23ca744806298fe4d876b12cf528fa73, type: 3}
   - {fileID: 2800000, guid: d2bc4f545dd0b524f878da9b84d15eee, type: 3}
   - {fileID: 2800000, guid: 300ae5d6d775aac4797c9ffc5bdde9cb, type: 3}
   - {fileID: 2800000, guid: e95f4ea45a0cb2a43ab95acfab3863e5, type: 3}
-  - {fileID: 2800000, guid: b2c69f4eb82ad2345a5ecc5ab3549b8c, type: 3}
   levelSelectPanel: {fileID: 279905870}
   levelSelectPrefab: {fileID: 2590576833626020806, guid: 780cbd380a5faf84698dc2dfc40adda6, type: 3}
   playAgainButton: {fileID: 1282952841}

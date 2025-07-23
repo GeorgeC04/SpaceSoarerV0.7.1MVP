@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbPrefab: {fileID: 442435878}
-  spawnInterval: 120
+  spawnInterval: 40
   minX: -50
   maxX: 50
   spawnY: 100
@@ -2598,7 +2598,7 @@ MonoBehaviour:
   multiplierText: {fileID: 223494203}
   score: 0
   scoreSpeed: 1
-  puzzleInterval: 75
+  puzzleInterval: 65
   puzzleLauncher: {fileID: 1326098515}
   levelUpText: {fileID: 129437886}
   levelUpCanvas: {fileID: 129437885}
@@ -4834,6 +4834,7 @@ MonoBehaviour:
   scoreCounter: {fileID: 530604369}
   healthBar: {fileID: 1889746721}
   level: {fileID: 530604369}
+  speedForRandomRocks: {fileID: 631427561}
   puzzleSceneNames:
   - SlidingPuzzle
   - JigsawPuzzle
