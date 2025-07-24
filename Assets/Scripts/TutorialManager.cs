@@ -26,9 +26,10 @@ public class TutorialManager : MonoBehaviour
 
         currentPage = pageIndex;
 
-        // Enable/disable navigation buttons as needed
-        backButton.interactable = currentPage > 0;
-        nextButton.interactable = currentPage < tutorialPages.Length - 1;
+         backButton.gameObject.SetActive(currentPage > 0);
+
+        // Hide the Next button on the last page
+        nextButton.gameObject.SetActive(currentPage < tutorialPages.Length - 1);
     }
 
     public void NextPage()
