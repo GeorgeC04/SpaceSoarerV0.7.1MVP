@@ -93,15 +93,21 @@ public class healthBar : MonoBehaviour
         }
 
         var colourPattern = FindObjectOfType<ColourPattern>();
-        if (spawner != null)
+        if (colourPattern != null)
         {
             colourPattern.enabled = false;
         }
         var MathsScript = FindObjectOfType<MathsPuzzleManager>();
-        if (spawner != null)
+        if (MathsScript != null)
         {
             MathsScript.enabled = false;
         }
+        var playercharacter = FindObjectOfType<Player>();
+        if (playercharacter != null)
+        {
+            playercharacter.enabled = false;
+        }
+        Time.timeScale = 0f;
             
 
         // 4) Wait real time so Game Over text is visible

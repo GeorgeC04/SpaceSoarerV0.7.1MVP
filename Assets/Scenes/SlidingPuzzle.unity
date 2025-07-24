@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click a tile with space next to it to slide them across to recreate the
+  m_text: Select tile with a space next to it to slide them across to recreate the
     image
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cea1ce11ebc0e964190fd8e514e9e431, type: 2}
