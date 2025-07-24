@@ -220,17 +220,19 @@ public class MathsPuzzleManager : MonoBehaviour
             {
                 // Easy difficulty: Words with one blank
                 string[] words = {
-                "SU_", "SK_", "STA_", "MOO_", "MAR_", "NOV_", "VOI_", "DUS_", "RIN_", "OR_",
-                "AUR_", "LEN_", "POL_", "FLU_", "SPI_", "LUN_", "URS_", "TAI_", "AXI_", "SO_",
-                "BEL_", "HAL_", "DAW_", "DUS_", "HAZ_", "BEA_", "COR_", "SPO_", "ZON_", "PLA_",
-                "LE_", "IO_", "RA_", "GA_", "COM_", "EO_", "RIF_", "ZOO_", "WAR_", "NAS_"
+                "SU_", "SK_", "STA_", "MOO_", "MAR_", "NOV_", "VOI_", "DUS_", "RIN_",
+                "AUR_", "LEN_", "POL_", "FLU_", "SPI_", "LUN_",  "TAI_", "AXI_",
+                "BEL_", "HAL_", "DAW_", "DUS_", "HAZ_", "BEA_", "COR_", "SPO_", "ZON_",
+                "RA_", "GA_", "COM_", "EO_", "RIF_", "ZOO_", "WAR_", "NAS_",
+                "COSM_", "BL_CK", "RO_K","L_GHT", "SP_ED"
             };
 
                 string[] correctLetters = {
-                "N","Y","R","N","S","A","D","T","G","B",
-                "A","S","E","X","N","A","A","L","S","L",
-                "T","O","N","K","E","M","E","T","E","N",
-                "O","O","Y","S","A","N","T","M","P","A"
+                "N","Y","R","N","S","A","D","T","G",
+                "A","S","E","X","N","A","L","S",
+                "T","O","N","K","E","M","E","T","E",
+                "Y","S","A","N","T","M","P","A",
+                "O","A","C","I","E"
             };// Correct letters to fill the blanks
 
                 int index = Random.Range(0, words.Length); // Pick a random word
@@ -242,25 +244,27 @@ public class MathsPuzzleManager : MonoBehaviour
                 // Hard difficulty: Words with two blanks
                 string[] words = {
                     "PL__ET",  // PLANET
-                    "GA__AXY", // GALAXY
-                    "C__MET", // COMET
+                    "GA__XY", // GALAXY
+                    "C__ET", // COMET
                     "ME__OR",  // METEOR
                     "AS__ROID",// ASTEROID
                     "NE__LA", // NEBULA
                     "RO__ET", // ROCKET
                     "CR__ER", // CRATER
                     "OR__T", // ORBIT
-                    "GR__TY",// GRAVITY
+                    "GR__ITY",// GRAVITY
                     "AU__RA", // AURORA
                     "SA__RN", // SATURN
                     "JU__TER",// JUPITER
                     "NE__UNE",// NEPTUNE
-                    "EA__TH", // EARTH
+                    "E__TH", // EARTH
                     "VE__S",  // VENUS
                     "UR__US", // URANUS
                     "AL__N", // ALIEN
                     "SP__E", // SPACE
-                    "E__LE"  // EAGLE (as in lunar module “Eagle”)
+                    "E__LE",  // EAGLE (as in lunar module “Eagle”)
+                    "SP__E",
+                    "SO__ER"
                 };
 
                 string[] correctLetterPairs = {
@@ -269,21 +273,23 @@ public class MathsPuzzleManager : MonoBehaviour
                     "OM", // CO OM ET
                     "TE", // ME TE OR
                     "TE", // AS TE ROID
-                    "BE", // NE BE ULA
-                    "OC", // RO OC KET
+                    "BU", // NE BE ULA
+                    "CK", // RO CK ET
                     "AT", // CR AT ER
                     "BI", // OR BI T
-                    "RA", // GR RA VITY
-                    "UR", // AU UR ORA
-                    "AT", // SA AT URN
-                    "UP", // JU UP ITER
+                    "AV", // GR AV ITY
+                    "RO", // AU UR ORA
+                    "TU", // SA TU RN
+                    "PI", // JU PI TER
                     "PT", // NE PT UNE
-                    "AR", // EA AR TH
+                    "AR", // E AR TH
                     "NU", // VE NU S
                     "AN", // UR AN US
                     "IE", // AL IE N
                     "AC", // SP AC E
-                    "AG"  // EA AG LE
+                    "AG",  // E AG LE
+                    "AC",
+                    "AR"
                 }; // Correct two-letter combinations
 
                 int index = Random.Range(0, words.Length); // Pick a random word
@@ -330,6 +336,16 @@ public class MathsPuzzleManager : MonoBehaviour
         // Create a set to track unique answers
         HashSet<string> usedAnswers = new HashSet<string>();
 
+        // Pre-add the correct answer text so it never appears again
+        string correctAnswerText;
+        if (puzzleText.text.Contains("Complete the word"))
+            correctAnswerText = currentDifficulty == Difficulty.Hard
+                ? correctWordAnswer
+                : ((char)correctAnswer).ToString();
+        else
+            correctAnswerText = correctAnswer.ToString();
+        usedAnswers.Add(correctAnswerText);
+
         int xVector = 0;
 
         if (currentDifficulty == Difficulty.Hard)
@@ -337,33 +353,20 @@ public class MathsPuzzleManager : MonoBehaviour
             int userScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
 
             if (userScore < 300)
-            {
                 xVector = 500;
-            }
             if (userScore < 600 && userScore > 300)
-            {
                 xVector = 700;
-            }
             if (userScore < 1000 && userScore > 600)
-            {
                 xVector = 100;
-            }
             if (userScore > 1000)
-            {
                 xVector = userScore + 400;
-            }
             if (userScore > 2000)
-            {
                 xVector = userScore * 2;
-            }
         }
         else
         {
             xVector = 150;
         }
-        
-        
-
 
         for (int i = 0; i < numberOfRocks; i++)
         {
@@ -382,63 +385,60 @@ public class MathsPuzzleManager : MonoBehaviour
             }
             else
             {
-                // Initialize the answerText variable
                 string answerText = string.Empty;
 
-                // Check if it's a word puzzle
+                // Word puzzle branch
                 if (puzzleText.text.Contains("Complete the word"))
                 {
                     if (i == correctAnswerIndex)
                     {
-                        // Assign the correct word answer (single or two letters)
-                        answerText = currentDifficulty == Difficulty.Hard ? correctWordAnswer : ((char)correctAnswer).ToString();
+                        answerText = correctAnswerText;
                         spawnedRock.tag = "CorrectAnswer";
                     }
                     else
                     {
-                        if (currentDifficulty == Difficulty.Easy)
+                        // generate unique wrong answer
+                        do
                         {
-                            // Generate a single random letter
-                            do
+                            if (currentDifficulty == Difficulty.Easy)
+                                answerText = ((char)Random.Range(65, 91)).ToString();
+                            else
                             {
-                                answerText = ((char)Random.Range(65, 91)).ToString(); // Random letter (A-Z)
-                            } while (usedAnswers.Contains(answerText));
+                                char l1 = (char)Random.Range(65, 91);
+                                char l2 = (char)Random.Range(65, 91);
+                                answerText = $"{l1}{l2}";
+                            }
                         }
-                        else if (currentDifficulty == Difficulty.Hard)
-                        {
-                            // Generate two random letters
-                            do
-                            {
-                                char letter1 = (char)Random.Range(65, 91); // Random A-Z
-                                char letter2 = (char)Random.Range(65, 91); // Random A-Z
-                                answerText = $"{letter1}{letter2}"; // Combine into a two-letter string
-                            } while (usedAnswers.Contains(answerText));
-                        }
+                        while (usedAnswers.Contains(answerText));
+                        spawnedRock.tag = "Rock";
                     }
                 }
-                else // Math puzzle
+                // Math puzzle branch
+                else
                 {
                     if (i == correctAnswerIndex)
                     {
-                        // Correct number answer
-                        answerText = correctAnswer.ToString();
+                        answerText = correctAnswerText;
                         spawnedRock.tag = "CorrectAnswer";
                     }
                     else
                     {
-                        // Generate a random number that hasn't been used
+                        // generate unique wrong number
                         do
                         {
                             answerText = Random.Range(1, 20).ToString();
-                        } while (usedAnswers.Contains(answerText));
+                        }
+                        while (usedAnswers.Contains(answerText));
+                        spawnedRock.tag = "Rock";
                     }
                 }
 
-                rockText.text = answerText; // Set the text on the rock
-                usedAnswers.Add(answerText); // Add the answer to the set of used answers
+                rockText.text = answerText;
+                usedAnswers.Add(answerText); // mark it used
             }
         }
     }
+
 
 
 
@@ -469,69 +469,69 @@ public class MathsPuzzleManager : MonoBehaviour
     
 
     private IEnumerator ShowPuzzleTextAnimated()
-{
-    isShowingText = true;
-    puzzleText.gameObject.SetActive(true);
-
-    RectTransform rect = puzzleText.GetComponent<RectTransform>();
-
-    // Set fixed start position here, so it resets every time
-    Vector2 fixedStartPos = new Vector2(-12.7959f, 1f);
-    rect.anchoredPosition = fixedStartPos;
-
-    Vector2 midPos = fixedStartPos;
-    Vector2 startPos = midPos + new Vector2(0f, -30f);
-    Vector2 endPos = midPos + new Vector2(0f, -30f);
-
-    // Immediately move to startPos (30 units below fixed start)
-    rect.anchoredPosition = startPos;
-
-    float duration = 0.5f;
-    float pauseTime = 1.5f;
-    float fadeOutDuration = 0.5f;
-
-    CanvasGroup puzzleCanvas = puzzleText.GetComponent<CanvasGroup>();
-    if (puzzleCanvas == null) puzzleCanvas = puzzleText.gameObject.AddComponent<CanvasGroup>();
-    puzzleCanvas.alpha = 0f;
-
-    float flashSpeed = 4f;
-
-    // Fade in + move up
-    float t = 0f;
-    while (t < duration)
     {
-        t += Time.deltaTime;
-        float progress = t / duration;
-        rect.anchoredPosition = Vector2.Lerp(startPos, midPos, progress);
-        puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
-        yield return null;
-    }
+        isShowingText = true;
+        puzzleText.gameObject.SetActive(true);
 
-    // Pause
-    float pauseTimer = 0f;
-    while (pauseTimer < pauseTime)
-    {
-        pauseTimer += Time.deltaTime;
-        puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
-        yield return null;
-    }
+        RectTransform rect = puzzleText.GetComponent<RectTransform>();
 
-    // Fade out + move down
-    t = 0f;
-    while (t < fadeOutDuration)
-    {
-        t += Time.deltaTime;
-        float progress = t / fadeOutDuration;
-        rect.anchoredPosition = Vector2.Lerp(midPos, endPos, progress);
-        float baseAlpha = Mathf.Lerp(1f, 0f, progress);
-        float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
-        puzzleCanvas.alpha = baseAlpha * flashAlpha;
-        yield return null;
-    }
+        // Set fixed start position here, so it resets every time
+        Vector2 fixedStartPos = new Vector2(-12.7959f, 1f);
+        rect.anchoredPosition = fixedStartPos;
 
-    puzzleText.gameObject.SetActive(false);
-    isShowingText = false;
-}
+        Vector2 midPos = fixedStartPos;
+        Vector2 startPos = midPos + new Vector2(0f, -30f);
+        Vector2 endPos = midPos + new Vector2(0f, -30f);
+
+        // Immediately move to startPos (30 units below fixed start)
+        rect.anchoredPosition = startPos;
+
+        float duration = 0.5f;
+        float pauseTime = 1.5f;
+        float fadeOutDuration = 0.5f;
+
+        CanvasGroup puzzleCanvas = puzzleText.GetComponent<CanvasGroup>();
+        if (puzzleCanvas == null) puzzleCanvas = puzzleText.gameObject.AddComponent<CanvasGroup>();
+        puzzleCanvas.alpha = 0f;
+
+        float flashSpeed = 4f;
+
+        // Fade in + move up
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float progress = t / duration;
+            rect.anchoredPosition = Vector2.Lerp(startPos, midPos, progress);
+            puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+            yield return null;
+        }
+
+        // Pause
+        float pauseTimer = 0f;
+        while (pauseTimer < pauseTime)
+        {
+            pauseTimer += Time.deltaTime;
+            puzzleCanvas.alpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
+            yield return null;
+        }
+
+        // Fade out + move down
+        t = 0f;
+        while (t < fadeOutDuration)
+        {
+            t += Time.deltaTime;
+            float progress = t / fadeOutDuration;
+            rect.anchoredPosition = Vector2.Lerp(midPos, endPos, progress);
+            float baseAlpha = Mathf.Lerp(1f, 0f, progress);
+            float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
+            puzzleCanvas.alpha = baseAlpha * flashAlpha;
+            yield return null;
+        }
+
+        puzzleText.gameObject.SetActive(false);
+        isShowingText = false;
+    }
 
 
 
