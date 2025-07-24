@@ -8,6 +8,8 @@ public class BackgroundScroller : MonoBehaviour
     private Material mat;
     public Texture[] backgrounds;   // Array to store background textures
     public float changeInterval = 100f;  // Time interval between background changes
+
+    public ScoreCounter scoreCounter; 
     public float fadeDuration = 1f;    // Duration of the fade effect
     private int currentBackgroundIndex = 0;
     private float timeSinceLastChange = 0f;
@@ -41,7 +43,7 @@ public class BackgroundScroller : MonoBehaviour
         mat.SetTextureOffset("_MainTex", new Vector2(offset, 0));
 
         timeSinceLastChange += Time.deltaTime;
-        if (timeSinceLastChange >= changeInterval)
+        if (timeSinceLastChange >= scoreCounter.levelUpEvery)
         {
             timeSinceLastChange = 0f;
             if (fadeCoroutine != null)

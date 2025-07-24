@@ -27,7 +27,9 @@ public class JigsawUIManager : MonoBehaviour
         timeLeft = puzzleDuration;
 
         baseScore = Mathf.FloorToInt(PlayerPrefs.GetFloat("SavedScore", 0f));
-        puzzleScoreText.text = "Score: " + baseScore;
+        float multi = PlayerPrefs.GetFloat("SavedMultiplier");
+
+        puzzleScoreText.text = "Score: " + Mathf.Round(baseScore * multi).ToString();
 
         baseLives = PlayerPrefs.GetInt("SavedHealth", 
         FindObjectOfType<healthBar>()?.spaceShips.Length ?? 5);

@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &41468140
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1279,7 +1279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &277719007
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1479,7 +1479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &339221713
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6279,6 +6279,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 775c4a9797a4e734c8625243bc95605e, type: 3}
   - {fileID: 2800000, guid: 0fc089fe054acd94897afd2d65886918, type: 3}
   changeInterval: 50
+  scoreCounter: {fileID: 530604369}
   fadeDuration: 0.1
   rockSpawner: {fileID: 0}
   randomRockSpawner: {fileID: 0}
@@ -7089,6 +7090,7 @@ MonoBehaviour:
   - {fileID: 1655522887}
   - {fileID: 650535511}
   gameOverTxt: {fileID: 1624122375}
+  gameOverDelay: 2
 --- !u!114 &1889746722
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,8 +14,8 @@ public class ScoreCounter : MonoBehaviour
 
     private string playerName;     // Store the player's name
     [Header("Auto-Puzzle Settings")]
-    public float puzzleInterval ;          // fire every 100 points
-    private int puzzlesTriggered;            // how many intervals we've already passed
+    public float puzzleInterval;          // fire every 100 points
+    private int puzzlesTriggered;         // how many intervals we've already passed
     public PuzzleLauncher puzzleLauncher;
 
     [Header("Level Up Settings")]
@@ -24,42 +24,32 @@ public class ScoreCounter : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip levelUpSound;
 
-    public int levelUpEvery = 50; // Every 100 points
-    private int nextLevelUpScore = 50;
-    public int level = 1; 
+    public int levelUpEvery = 50; // points per level
+    public int level = 1;         // current level
 
-    private bool isShowingLevelUp = false;
+    // NEW: next score threshold to level up
+    private int nextLevelUpScore;
 
-    private int lastLevelUpScore = 0;
     private float multiplier;
 
     public Difficulty currentDifficulty = Difficulty.Easy;
-
-    public RandomRockSpawner randRockSpawn; //Spawn point for rocks
+    public RandomRockSpawner randRockSpawn;
 
     void Start()
     {
-
         currentDifficulty = GameSettings.SelectedDifficulty;
-
-        // 1) Ensure the game isn't paused
         Time.timeScale = 1f;
-
-        // 2) Load the player's name
         playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
 
-        // 3) Restore a saved score if we just returned from the puzzle…
         if (PlayerPrefs.HasKey("SavedScore"))
         {
             score = PlayerPrefs.GetFloat("SavedScore");
-            PlayerPrefs.DeleteKey("SavedScore");  // so that a brand‐new run won’t reuse it
+            PlayerPrefs.DeleteKey("SavedScore");
         }
-        else
-        {
-            // …otherwise start at zero for a fresh game
-            score = 0f;
-        }
+        else score = 0f;
+
         multiplier = PlayerPrefs.GetFloat("SavedMultiplier");
+
         if (PlayerPrefs.HasKey("SavedLevel"))
         {
             level = PlayerPrefs.GetInt("SavedLevel");
@@ -67,10 +57,13 @@ public class ScoreCounter : MonoBehaviour
         }
         else
         {
-            level = 2;
+            level = 1;
         }
+
+        // INIT next threshold
+        nextLevelUpScore = level * levelUpEvery;
+
         puzzlesTriggered = Mathf.FloorToInt(score / puzzleInterval);
-        
     }
 
     void Update()
@@ -78,91 +71,71 @@ public class ScoreCounter : MonoBehaviour
         // Increase the score over time
         score += Time.deltaTime * scoreSpeed;
 
-        // Update the score text
+        // Update UI
         int intScore = Mathf.FloorToInt(score);
-       scoreText.text = "SCORE: " + Mathf.Round(intScore * multiplier).ToString();
+        scoreText.text = "SCORE: " + Mathf.Round(intScore * multiplier).ToString();
+        multiplierText.text = "MULTIPLIER: " + $"x{PlayerPrefs.GetFloat("SavedMultiplier"):0.0}";
 
-
-        float mult = PlayerPrefs.GetFloat("SavedMultiplier");
-
-        multiplierText.text = "MULTIPLIER: " +  $"x{mult:0.0}";
-        
+        // Auto-puzzle
         int intervals = Mathf.FloorToInt(score / puzzleInterval);
-
-            // 3) if we've crossed a new one, trigger once per interval
-            if (intervals > puzzlesTriggered)
+        if (intervals > puzzlesTriggered)
+        {
+            puzzlesTriggered = intervals;
+            if (puzzleLauncher != null)
             {
-                puzzlesTriggered = intervals;
-
-                if (puzzleLauncher != null)
-                {
-                    puzzleLauncher.LaunchPuzzle();
-                    if (currentDifficulty == Difficulty.Easy)
-                    {
-                        randRockSpawn.rockSpeed += 0.001f;
-                    }
-                    else
-                    {
-                        randRockSpawn.rockSpeed += 0.40f;
-                        randRockSpawn.spawnInterval += 0.0005f;
-                    }
-
-                }
-
-
+                puzzleLauncher.LaunchPuzzle();
+                if (currentDifficulty == Difficulty.Easy)
+                    randRockSpawn.rockSpeed += 0.001f;
                 else
                 {
-                    Debug.LogWarning("PuzzleLauncher not assigned on ScoreCounter!");
+                    randRockSpawn.rockSpeed += 0.40f;
+                    randRockSpawn.spawnInterval += 0.0005f;
                 }
-                
             }
+            else Debug.LogWarning("PuzzleLauncher not assigned on ScoreCounter!");
+        }
 
-        // Trigger Level Up every X points
-            intScore = Mathf.FloorToInt(score);
+        // —— REPLACED LEVEL-UP LOGIC ——  
+        // bump level one step at a time if score crosses multiple thresholds
+        while (intScore >= nextLevelUpScore)
+        {
+            level++;
+            nextLevelUpScore += levelUpEvery;
 
-        if (intScore >= lastLevelUpScore + levelUpEvery)
-        {   
-            //levelUpEvery = (levelUpEvery * 2) - 19; If we want to increase the amount of score it takes to level up.
-            lastLevelUpScore += levelUpEvery;
+            // persist new level
+            PlayerPrefs.SetInt("SavedLevel", level);
+            PlayerPrefs.Save();
+
             StartCoroutine(ShowLevelUp());
             if (levelUpSound != null && audioSource != null)
                 audioSource.PlayOneShot(levelUpSound);
         }
-
-
     }
-
 
     public void EndGame()
     {
-        // Check if the current score is a high score and update the top 5 list
         float finalScore = score * PlayerPrefs.GetFloat("SavedMultiplier");
         SaveHighScore(finalScore, playerName);
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-
     }
+
     public void EndGamePuzzle(float score, float multiplier, string playerName)
     {
-        // Check if the current score is a high score and update the top 5 list
         float finalScore = score * multiplier;
         SaveHighScore(finalScore, playerName);
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-
     }
 
     public void SaveHighScore(float newScore, string newPlayerName)
     {
         List<(float score, string player)> highScores = new List<(float, string)>();
-
         for (int i = 0; i < 5; i++)
-        {
             highScores.Add((
                 PlayerPrefs.GetFloat("HighScore" + i, 0f),
                 PlayerPrefs.GetString("HighScorePlayer" + i, "Unknown")
             ));
-        }
 
         highScores.Add((newScore, newPlayerName));
         highScores.Sort((x, y) => y.score.CompareTo(x.score));
@@ -172,80 +145,51 @@ public class ScoreCounter : MonoBehaviour
             PlayerPrefs.SetFloat("HighScore" + i, highScores[i].score);
             PlayerPrefs.SetString("HighScorePlayer" + i, highScores[i].player);
         }
-
         PlayerPrefs.Save();
     }
 
     private IEnumerator ShowLevelUp()
     {
         levelUpText.text = "LEVEL " + level;
-        isShowingLevelUp = true;
         levelUpText.gameObject.SetActive(true);
-
-        float duration = 0.5f;
-        float pauseTime = 0.3f;
-        float fadeOutDuration = 0.5f;
-
-        Vector3 startPos = levelUpText.transform.localPosition + new Vector3(0, -30f, 0);
-        Vector3 midPos = levelUpText.transform.localPosition;
-        Vector3 endPos = midPos + new Vector3(0, -30f, 0);
-
-        levelUpText.transform.localPosition = startPos;
         levelUpCanvas.alpha = 0f;
 
-        float flashSpeed = 4f;  // Number of flashes per second
+        float duration = 0.5f, pauseTime = 0.3f, fadeOut = 0.5f;
+        Vector3 start = levelUpText.transform.localPosition + Vector3.down * 30f;
+        Vector3 mid   = levelUpText.transform.localPosition;
+        Vector3 end   = mid + Vector3.down * 30f;
+        levelUpText.transform.localPosition = start;
 
-        // Fade in and move up with flashing
-        float t = 0f;
+        float flash = 4f, t = 0f;
+        // fade in
         while (t < duration)
         {
             t += Time.deltaTime;
-            float progress = t / duration;
-            levelUpText.transform.localPosition = Vector3.Lerp(startPos, midPos, progress);
-
-            // Flash alpha: oscillate between 0 and 1 quickly
-            float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
-            levelUpCanvas.alpha = flashAlpha;
-
+            float p = t / duration;
+            levelUpText.transform.localPosition = Vector3.Lerp(start, mid, p);
+            levelUpCanvas.alpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flash));
             yield return null;
         }
-
-        // Pause with flashing
-        float pauseTimer = 0f;
-        while (pauseTimer < pauseTime)
+        // pause
+        float pt = 0f;
+        while (pt < pauseTime)
         {
-            pauseTimer += Time.deltaTime;
-
-            float flashAlpha = Mathf.Abs(Mathf.Sin(pauseTimer * Mathf.PI * flashSpeed));
-            levelUpCanvas.alpha = flashAlpha;
-
+            pt += Time.deltaTime;
+            levelUpCanvas.alpha = Mathf.Abs(Mathf.Sin(pt * Mathf.PI * flash));
             yield return null;
         }
-
-        // Fade out and move down with flashing
+        // fade out
         t = 0f;
-        while (t < fadeOutDuration)
+        while (t < fadeOut)
         {
             t += Time.deltaTime;
-            float progress = t / fadeOutDuration;
-            levelUpText.transform.localPosition = Vector3.Lerp(midPos, endPos, progress);
-
-            // Flash alpha combined with fade out
-            float baseAlpha = Mathf.Lerp(1f, 0f, progress);
-            float flashAlpha = Mathf.Abs(Mathf.Sin(t * Mathf.PI * flashSpeed));
-            levelUpCanvas.alpha = baseAlpha * flashAlpha;
-
+            float p = t / fadeOut;
+            levelUpText.transform.localPosition = Vector3.Lerp(mid, end, p);
+            float baseA = Mathf.Lerp(1f, 0f, p);
+            levelUpCanvas.alpha = baseA * Mathf.Abs(Mathf.Sin(t * Mathf.PI * flash));
             yield return null;
         }
 
         levelUpText.gameObject.SetActive(false);
-        isShowingLevelUp = false;
-        level++;
-        
-        PlayerPrefs.SetInt("SavedLevel", level);
-        PlayerPrefs.Save();
     }
-
-
-
 }
