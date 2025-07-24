@@ -571,11 +571,12 @@ public class ColourPattern : MonoBehaviour
     Vector2 fixedStartPos = new Vector2(-12.7959f, 1f);
     rect.anchoredPosition = fixedStartPos;
 
-    Vector2 midPos = fixedStartPos;
-    Vector2 startPos = midPos + new Vector2(0f, -30f);
-    Vector2 endPos = midPos + new Vector2(0f, -30f);
+    // Adjust positions to move right by adding an offset to the x-axis
+    Vector2 startPos = fixedStartPos + new Vector2(50f, -30f); // Moving it 50 units to the right
+    Vector2 midPos = startPos; // Mid position is same as start position
+    Vector2 endPos = midPos + new Vector2(50f, -30f); // Move it 50 units more to the right at the end
 
-    // Immediately move to startPos (30 units below fixed start)
+    // Immediately move to startPos (50 units right and 30 units down from fixed start)
     rect.anchoredPosition = startPos;
 
     float duration = 0.5f;
@@ -628,6 +629,7 @@ public class ColourPattern : MonoBehaviour
 
 
 
+
      private IEnumerator ShowPuzzleTextAnimatedNotColoured()
     {
         isShowingText = true;
@@ -637,9 +639,9 @@ public class ColourPattern : MonoBehaviour
         float pauseTime = 3f;
         float fadeOutDuration = 0.5f;
 
-        Vector3 startPos = puzzleText.transform.localPosition + new Vector3(0, -30f, 0);
-        Vector3 midPos = puzzleText.transform.localPosition;
-        Vector3 endPos = midPos + new Vector3(0, -30f, 0);
+        Vector3 startPos = puzzleText.transform.localPosition + new Vector3(25, -30f, 0);
+        Vector3 midPos = puzzleText.transform.localPosition + new Vector3(25, -30f, 0) ;
+        Vector3 endPos = midPos + new Vector3(25, -30f, 0);
 
         puzzleText.transform.localPosition = startPos;
 
