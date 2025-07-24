@@ -83,9 +83,24 @@ public class ScoreCounter : MonoBehaviour
             puzzlesTriggered = intervals;
             if (puzzleLauncher != null)
             {
-                puzzleLauncher.LaunchPuzzle();
-                if (currentDifficulty == Difficulty.Easy)
-                    randRockSpawn.rockSpeed += 0.001f;
+                puzzlesTriggered = intervals;
+
+                if (puzzleLauncher != null)
+                {
+                    puzzleLauncher.LaunchPuzzle();
+                    if (currentDifficulty == Difficulty.Easy)
+                    {
+                        randRockSpawn.rockSpeed += 0.001f;
+                    }
+                    else
+                    {
+                        randRockSpawn.rockSpeed += 0.40f;
+                        randRockSpawn.spawnInterval -= 10.0f;
+                    }
+
+                }
+
+
                 else
                 {
                     randRockSpawn.rockSpeed += 0.40f;

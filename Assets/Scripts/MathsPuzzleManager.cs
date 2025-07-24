@@ -136,7 +136,7 @@ public class MathsPuzzleManager : MonoBehaviour
             else
             {
                 randRockSpawn.rockSpeed += 0.10f;
-                randRockSpawn.spawnInterval += 0.0002f;
+                randRockSpawn.spawnInterval -= 0.0003f;
             }
 
 
@@ -330,9 +330,44 @@ public class MathsPuzzleManager : MonoBehaviour
         // Create a set to track unique answers
         HashSet<string> usedAnswers = new HashSet<string>();
 
+        int xVector = 0;
+
+        if (currentDifficulty == Difficulty.Hard)
+        {
+            int userScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
+
+            if (userScore < 300)
+            {
+                xVector = 500;
+            }
+            if (userScore < 600 && userScore > 300)
+            {
+                xVector = 700;
+            }
+            if (userScore < 1000 && userScore > 600)
+            {
+                xVector = 100;
+            }
+            if (userScore > 1000)
+            {
+                xVector = userScore + 400;
+            }
+            if (userScore > 2000)
+            {
+                xVector = userScore * 2;
+            }
+        }
+        else
+        {
+            xVector = 150;
+        }
+        
+        
+
+
         for (int i = 0; i < numberOfRocks; i++)
         {
-            Vector3 spawnPosition = spawnPoint.position + new Vector3(400, i * spacing, 0);
+            Vector3 spawnPosition = spawnPoint.position + new Vector3(xVector, i * spacing, 0);
             GameObject spawnedRock = Instantiate(rockPrefab, spawnPosition, Quaternion.identity, spawnStart);
             spawnedRock.SetActive(true);
             spawnedRocks.Add(spawnedRock);

@@ -144,44 +144,58 @@ public class ColourPattern : MonoBehaviour
 
         int xPos = 1600;
         int correctNumber;
+        int xPosIncrease = 0;
 
         int sizeOfFor;
 
         if (currentDifficulty == Difficulty.Easy)
         {
             sizeOfFor = 3;
+
+            xPosIncrease = 400;
         }
         else
         {
             sizeOfFor = 4;
+
+            int userScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
+
+
+            if (userScore < 300)
+            {
+                xPosIncrease = 550;
+            }
+            if (userScore < 600 && userScore > 300)
+            {
+                xPosIncrease = 750;
+            }
+            if (userScore < 1000 && userScore > 600)
+            {
+                xPosIncrease = 950;
+            }
+            if (userScore > 1000)
+            {
+                xPosIncrease = (userScore + 300);
+            }
+            if (userScore > 2000)
+            {
+                xPosIncrease = (userScore + 200);
+            }
+            if (userScore > 3000)
+            {
+                xPosIncrease = (userScore + 100);
+            }
+
         }
         
-        int userScore = Mathf.FloorToInt(currentScore.GetComponent<ScoreCounter>().score);
+        
 
         for (int n = 0; n < sizeOfFor; n++)
         {
 
             int yPos = 150;
-            if (userScore < 300)
-            {
-                xPos += 550;
-            }
-            if (userScore < 1000 && userScore > 300)
-            {
-                xPos += 750;
-            }
-            if (userScore > 1000)
-            {
-                xPos += (int) (userScore / 1.1);
-            }
-            if (userScore > 2000)
-            {
-                xPos += (int) (userScore / 1.3);
-            }
-            if (userScore > 3000)
-            {
-                xPos += (int) (userScore / 1.6);
-            }
+            xPos += xPosIncrease;
+            
                 
             correctNumber = randomNumbers[n];
 
@@ -253,7 +267,7 @@ public class ColourPattern : MonoBehaviour
             else
             {
                 randRockSpawn.rockSpeed += 0.10f;
-                randRockSpawn.spawnInterval += 0.0002f;
+                randRockSpawn.spawnInterval -= 0.0003f;
             }
 
 
